@@ -1,7 +1,6 @@
 import java.util.ArrayList;
 
 public abstract class Unidade {
-    private String cor;
     private Posicao posicao;
     private int vida;
     private int ataque;
@@ -9,8 +8,7 @@ public abstract class Unidade {
     private int valorElixir;
 
 
-    public Unidade(String cor, int vida, int ataque, int defesa, int valorElixir) {
-        this.cor = cor;
+    public Unidade(int vida, int ataque, int defesa, int valorElixir) {
         this.ataque = ataque;
         this.vida = vida;
         this.defesa = defesa;
@@ -25,8 +23,25 @@ public abstract class Unidade {
         }
         return true;
     }
-    public String getCor() {
-        return cor;
+
+    public Posicao getPosicao() {
+        return posicao;
+    }
+
+    public int getDefesa() {
+        return defesa;
+    }
+
+    public int getValorElixir() {
+        return valorElixir;
+    }
+
+    public int getAtaque() {
+        return ataque;
+    }
+
+    public int getVida() {
+        return vida;
     }
 }
 

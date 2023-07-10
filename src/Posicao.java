@@ -4,8 +4,8 @@ public class Posicao {
 
     public Unidade getUnidade() {return unidade;}
 
-    public void setPeca(Unidade peca) {
-        this.unidade = peca;
+    public void setUnidade(Torre unidade) {
+        this.unidade = unidade;
     }
 
     @Override
