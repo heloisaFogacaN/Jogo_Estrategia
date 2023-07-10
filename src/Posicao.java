@@ -4,7 +4,7 @@ public class Posicao {
 
     public Unidade getUnidade() {return unidade;}
 
-    public void setUnidade(Torre unidade) {
+    public void setUnidade(Unidade unidade) {
         this.unidade = unidade;
     }
 
