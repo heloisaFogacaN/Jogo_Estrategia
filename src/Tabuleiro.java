@@ -6,10 +6,10 @@ public class Tabuleiro {
     Tabuleiro() {
         for (int i = 0; i < 120; i++) {
             posicoes.add(new Posicao());
-            if(i>3 && i<7){
+            if(i>2 && i<6){
                 posicoes.get(i).setUnidade(new Torre(20, 0, 0, 0));
             }
-            if(i>112 && i<117){
+            if(i>111 && i<116){
                 posicoes.get(i).setUnidade(new Torre(20, 0,0, 0));
             }
         }

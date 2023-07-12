@@ -7,7 +7,15 @@ public class Anoes extends Unidade{
 
     @Override
     public ArrayList<Posicao> possiveisMovimento(Tabuleiro tabuleiro) {
-        return null;
+        Posicao posicaoAtual = this.getPosicao();
+        int posicaoNoTabuleiro = tabuleiro.getPosicoes().indexOf(posicaoAtual);
+        ArrayList<Posicao> possiveisMovimentos = new ArrayList<>();
+
+        return possiveisMovimentos;
     }
 
+    @Override
+    public String toString() {
+        return "Anões";
+    }
 }

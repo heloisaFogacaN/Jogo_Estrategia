@@ -12,7 +12,8 @@ public class Main {
         for(int i=0;i<20;i++) {
             System.out.println("Jogador: " + j1.getNome() + " escolha suas estratégias, você possui: " + j1.getElixir() +
                     " para escolher suas peças");
-
+            int escolha=scanner.nextInt();
+//            if(escolha==possiveisMovimentos)
         }
     }
 }
