@@ -9,18 +9,8 @@ public class Posicao {
         this.unidade = unidade;
     }
 
-    public void setTorre(Torre torre) {
-        this.torre = torre;
-    }
-
-    public Torre getTorre() {
-        return torre;
-    }
-
     @Override
     public String toString() {
-        return "Posicao{" +
-                "getPeca=" + getUnidade +
-                ", peca=" + unidade;
+        return "[" + unidade + "]";
     }
 }
