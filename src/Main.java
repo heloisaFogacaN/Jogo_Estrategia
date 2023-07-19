@@ -8,6 +8,7 @@ public class Main {
 
         mostrarTabuleiro();
 
+
     }
 
     private static boolean validarVitoria(Jogador adversario) {
