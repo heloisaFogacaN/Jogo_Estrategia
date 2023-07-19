@@ -22,7 +22,7 @@ public class Main {
 
         public static void mostrarTabuleiro() {
             int posicao = 0;
-            for (int i = 0; i < 9; i++) {
+            for (int i = 0; i < 7; i++) {
                 for (int j = 0; j < 9; j++) {
                     if (posicao < tabuleiro.getPosicoes().size()) {
                         Unidade unidade = tabuleiro.getPosicoes().get(posicao).getUnidade();
