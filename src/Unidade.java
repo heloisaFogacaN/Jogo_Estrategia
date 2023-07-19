@@ -5,14 +5,12 @@ public abstract class Unidade {
     private int vida;
     private int ataque;
     private int defesa;
-    private int valorElixir;
 
 
-    public Unidade(int vida, int ataque, int defesa, int valorElixir) {
+    public Unidade(int vida, int ataque, int defesa) {
         this.ataque = ataque;
         this.vida = vida;
         this.defesa = defesa;
-        this.valorElixir = valorElixir;
     }
 
     public boolean verificaPeca(Posicao posicao, ArrayList<Posicao> possiveisMovimentos) {
@@ -50,10 +48,6 @@ public abstract class Unidade {
         return defesa;
     }
 
-    public int getValorElixir() {
-        return valorElixir;
-    }
-
     public int getAtaque() {
         return ataque;
     }
@@ -61,6 +55,8 @@ public abstract class Unidade {
     public int getVida() {
         return vida;
     }
+
+
 }
 
 
