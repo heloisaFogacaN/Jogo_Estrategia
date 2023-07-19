@@ -6,7 +6,6 @@ public class Magos extends Unidade {
     }
 
     @Override
-    public ArrayList<Posicao> possiveisMovimento(Tabuleiro tabuleiro) {
-        return null;
+    public ArrayList<Posicao> possiveisMovimento(Tabuleiro tabuleiro) { return null;
     }
 }
