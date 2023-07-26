@@ -1,11 +1,25 @@
 import java.util.ArrayList;
 
-public class Magos extends Unidade {
-    public Magos(int vida, int ataque, int defesa) {
-        super(vida, ataque, defesa);
+public abstract class Magos {
+    private int vida, ataque, rodadasEscudoAtivo;
+    private boolean escudoAtivo;
+    public Magos(int vida, int ataque) {
+        this.vida=vida;
+        this.ataque=ataque;
     }
 
-    @Override
-    public ArrayList<Posicao> possiveisMovimento(Tabuleiro tabuleiro) { return null;
+    public abstract void ataqueEspecial();
+
+
+    public int getAtaqueEspecial() {
+        return vida;
+    }
+
+    public void setAtaque(int ataque) {
+        this.ataque = ataque;
+    }
+
+    public int getAtaque() {
+        return ataque;
     }
 }

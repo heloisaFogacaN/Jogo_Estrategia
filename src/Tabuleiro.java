@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 
 public class Tabuleiro {
-    private ArrayList<Posicao> posicoes = new ArrayList<>();
+    public static ArrayList<Posicao> posicoes = new ArrayList<>();
 
     Tabuleiro() {
         ArrayList<Posicao> posicaoTorre = new ArrayList<>();
@@ -33,6 +33,15 @@ public class Tabuleiro {
                 posicaoTorre.add(posicoes.get(i));
             }
         }
+    }
+
+    public void removerPeca(Posicao posicao){
+
+    }
+
+    public boolean verificarTorreNaPosicao(int posicaoEscolhida) {
+        Posicao posicao = posicoes.get(posicaoEscolhida - 1);
+        return posicao.getUnidade() instanceof Torre;
     }
     public ArrayList<Posicao> getPosicoes() {
         return posicoes;

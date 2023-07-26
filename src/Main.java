@@ -2,40 +2,64 @@ import java.util.ArrayList;
 import java.util.Scanner;
 public class Main {
     private ArrayList<Posicao> listaPosicoes;
+    private static  Scanner scanner = new Scanner(System.in);
     static Tabuleiro tabuleiro = new Tabuleiro();
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-
         mostrarTabuleiro();
-        System.out.println("\nInforme a torre que deseja conquistar:");
+        System.out.println("\nInforme a posição da torre que deseja conquistar:");
         int escolhaPosicao = scanner.nextInt();
-        Posicao posicao = posicoes.get(escolhaPosicao);
-        System.out.println("""
-                Você deseja utilizar qual mago?
-                1- Mago Branco
-                2- Mago Cinzento
-                3- Mago Negro
-                """);
-        int opcao= scanner.nextInt();
-        Magos tipoMago= null;
-        switch (opcao){
-            case 1:
-                 tipoMago = new MagoBranco(450, 60, 60);
-                break;
-            case 2:
-                tipoMago = new MagoCinzento(450, 60, 60);
-                break;
-            case 3:
-                tipoMago = new MagoNegro(450, 60, 60);
+
+        Tabuleiro tabuleiro = new Tabuleiro();
+
+        for (Posicao posicao : tabuleiro.posicoes) {
+            if (posicao.equals(escolhaPosicao)) {
+                Magos magoJogador = escolherMago();
+                Magos magoAdversario = escolherMago();
+                batalhar(escolhaPosicao, magoJogador, magoAdversario);
+                break; // Para sair do loop quando encontrar a posição desejada
+            }
         }
-        Batalha.batalhar(escolhaPosicao,tipoMago);
     }
 
     private static boolean validarVitoria(Jogador adversario) {
         return true;
     }
 
-        public static void mostrarTabuleiro() {
+    private static Magos escolherMago() {
+        System.out.println("""
+            Você deseja utilizar qual mago?
+            1- Mago Branco
+            2- Mago Cinzento
+            3- Mago Negro
+            """);
+        int opcao = scanner.nextInt();
+        Magos tipoMago = null;
+
+        switch (opcao) {
+            case 1:
+                tipoMago = new MagoBranco(450, 60, 60);
+                break;
+            case 2:
+                tipoMago = new MagoCinzento(450, 60, 60);
+                break;
+            case 3:
+                tipoMago = new MagoNegro(450, 60, 60);
+                break;
+            default:
+                System.out.println("Opção inválida. Escolha novamente.");
+                tipoMago = escolherMago();
+        }
+
+        return tipoMago;
+    }
+
+    public static void batalhar(int escolhaPosicao, Magos magoJpgador, Magos magoAdversario){
+
+    }
+
+
+
+    public static void mostrarTabuleiro() {
             int posicao = 0;
 
             for (int i = 0; i < 7; i++) {
@@ -45,7 +69,7 @@ public class Main {
                         if (unidade != null) {
                             System.out.print("|" + unidade + "| ");
                         } else {
-                            System.out.print("|   | ");
+                            System.out.print("|  | ");
                         }
                         posicao++;
                     } else {

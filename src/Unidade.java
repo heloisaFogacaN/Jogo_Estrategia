@@ -2,9 +2,7 @@ import java.util.ArrayList;
 
 public abstract class Unidade {
     private Posicao posicao;
-    private int vida;
-    private int ataque;
-    private int defesa;
+    private int vida, ataque, defesa;
 
 
     public Unidade(int vida, int ataque, int defesa) {
@@ -42,18 +40,6 @@ public abstract class Unidade {
 
     public Posicao getPosicao() {
         return posicao;
-    }
-
-    public int getDefesa() {
-        return defesa;
-    }
-
-    public int getAtaque() {
-        return ataque;
-    }
-
-    public int getVida() {
-        return vida;
     }
 
     public boolean validaExtremidade(int posicaoNoTabuleiro) {
