@@ -29,9 +29,6 @@ public class Main {
 
     }
 
-    private static boolean validarVitoria(Jogador adversario) {
-        return true;
-    }
 
     private static Magos escolherMago() {
         System.out.println("""
@@ -66,13 +63,9 @@ public class Main {
         Magos defensor = magoAdversario;
 
         while (magoJogador.getVida() > 0 && magoAdversario.getVida() > 0) {
-            int dano = atacante.calcularAtaque();
+            int dano = atacante.getAtaque();
             defensor.receberAtaque(dano);
 
-
-            Magos jogada = atacante;
-            atacante = defensor;
-            defensor = jogada;
         }
 
         if (magoJogador.getVida() > 0) {

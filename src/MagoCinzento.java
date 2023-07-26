@@ -8,11 +8,7 @@ public class MagoCinzento extends Magos{
         setAtaque(70);
 
     }
-
-    @Override
-    public int calcularAtaque() {
-        return 0;
-    }
-
-
 }
+
+
+

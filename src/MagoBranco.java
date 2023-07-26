@@ -7,9 +7,4 @@ public class MagoBranco extends Magos {
         setAtaque(80);
 
     }
-
-    @Override
-    public int calcularAtaque() {
-        return 0;
-    }
 }

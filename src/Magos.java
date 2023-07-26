@@ -10,20 +10,17 @@ public abstract class Magos {
 
     public abstract void ataqueEspecial();
 
-    public abstract int calcularAtaque();
 
-    public void receberAtaque(int dano) {
-        this.vida -= dano;
-
-        if (this.vida < 0) {
-            this.vida = 0;
+    public void receberAtaque(int ataqueOponente) {
+        int dano = ataqueOponente - this.getAtaque();
+        if (dano > 0) {
+            this.setVida(this.getVida() - dano);
         }
-
-        System.out.println("O mago recebeu um ataque e perdeu " + dano + " pontos de vida!");
-        System.out.println("Vida restante: " + this.vida);
     }
 
-
+    public void setVida(int vida) {
+        this.vida = vida;
+    }
 
     public int getVida() {
         return vida;
