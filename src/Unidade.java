@@ -42,12 +42,6 @@ public abstract class Unidade {
         return posicao;
     }
 
-    public boolean validaExtremidade(int posicaoNoTabuleiro) {
-        if(posicaoNoTabuleiro%10==0 || posicaoNoTabuleiro-1%10==0) {
-            return true;
-        }
-        return false;
-    }
 
 
 }

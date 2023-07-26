@@ -10,8 +10,22 @@ public abstract class Magos {
 
     public abstract void ataqueEspecial();
 
+    public abstract int calcularAtaque();
 
-    public int getAtaqueEspecial() {
+    public void receberAtaque(int dano) {
+        this.vida -= dano;
+
+        if (this.vida < 0) {
+            this.vida = 0;
+        }
+
+        System.out.println("O mago recebeu um ataque e perdeu " + dano + " pontos de vida!");
+        System.out.println("Vida restante: " + this.vida);
+    }
+
+
+
+    public int getVida() {
         return vida;
     }
 

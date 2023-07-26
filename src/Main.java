@@ -3,22 +3,30 @@ import java.util.Scanner;
 public class Main {
     private ArrayList<Posicao> listaPosicoes;
     private static  Scanner scanner = new Scanner(System.in);
+    static boolean torreEncontrada = false;
     static Tabuleiro tabuleiro = new Tabuleiro();
     public static void main(String[] args) {
         mostrarTabuleiro();
-        System.out.println("\nInforme a posição da torre que deseja conquistar:");
-        int escolhaPosicao = scanner.nextInt();
 
-        Tabuleiro tabuleiro = new Tabuleiro();
+        do {
+            System.out.println("\nInforme a posição da torre que deseja conquistar:");
+            int escolhaPosicao = scanner.nextInt();
 
-        for (Posicao posicao : tabuleiro.posicoes) {
-            if (posicao.equals(escolhaPosicao)) {
-                Magos magoJogador = escolherMago();
-                Magos magoAdversario = escolherMago();
-                batalhar(escolhaPosicao, magoJogador, magoAdversario);
-                break; // Para sair do loop quando encontrar a posição desejada
+            Tabuleiro tabuleiro = new Tabuleiro();
+            for (Posicao posicao : tabuleiro.posicoes) {
+                if (posicao.equals(escolhaPosicao) && Tabuleiro.verificarTorreNaPosicao(escolhaPosicao)==true) {
+                    torreEncontrada = true;
+                    Magos magoJogador = escolherMago();
+                    Magos magoAdversario = escolherMago();
+                    batalhar( magoJogador, magoAdversario);
+                    break;
+                }
             }
-        }
+            if (!torreEncontrada) {
+                System.out.println("Não há uma torre na posição informada. Escolha outra posição.");
+            }
+        }while(!torreEncontrada);
+
     }
 
     private static boolean validarVitoria(Jogador adversario) {
@@ -37,13 +45,13 @@ public class Main {
 
         switch (opcao) {
             case 1:
-                tipoMago = new MagoBranco(450, 60, 60);
+                tipoMago = new MagoBranco(570,45);
                 break;
             case 2:
-                tipoMago = new MagoCinzento(450, 60, 60);
+                tipoMago = new MagoCinzento(560, 40);
                 break;
             case 3:
-                tipoMago = new MagoNegro(450, 60, 60);
+                tipoMago = new MagoNegro(550, 50);
                 break;
             default:
                 System.out.println("Opção inválida. Escolha novamente.");
@@ -53,10 +61,28 @@ public class Main {
         return tipoMago;
     }
 
-    public static void batalhar(int escolhaPosicao, Magos magoJpgador, Magos magoAdversario){
+    public static void batalhar(Magos magoJogador, Magos magoAdversario){
+        Magos atacante = magoJogador;
+        Magos defensor = magoAdversario;
 
+        while (magoJogador.getVida() > 0 && magoAdversario.getVida() > 0) {
+            int dano = atacante.calcularAtaque();
+            defensor.receberAtaque(dano);
+
+
+            Magos jogada = atacante;
+            atacante = defensor;
+            defensor = jogada;
+        }
+
+        if (magoJogador.getVida() > 0) {
+            System.out.println("O mago jogador venceu a batalha!");
+        } else if (magoAdversario.getVida() > 0) {
+            System.out.println("O mago adversário venceu a batalha!");
+        } else {
+            System.out.println("A batalha terminou em empate!");
+        }
     }
-
 
 
     public static void mostrarTabuleiro() {

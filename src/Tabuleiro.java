@@ -39,7 +39,7 @@ public class Tabuleiro {
 
     }
 
-    public boolean verificarTorreNaPosicao(int posicaoEscolhida) {
+    public static boolean verificarTorreNaPosicao(int posicaoEscolhida) {
         Posicao posicao = posicoes.get(posicaoEscolhida - 1);
         return posicao.getUnidade() instanceof Torre;
     }
