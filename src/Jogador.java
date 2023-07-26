@@ -13,6 +13,7 @@ public class Jogador {
         this.senha=senha;
     }
 
+
     public String getNome() {
         return nome;
     }
@@ -31,6 +32,11 @@ public class Jogador {
 
     public ArrayList<Unidade> getUnidade() {
         return unidades;
+    }
+
+    public void vencerBatalha(Tabuleiro tabuleiro, int posicao) {
+        tabuleiro.marcarPosicao(posicao, "x");
+        this.pontos+=1;
     }
 
     public boolean moverPeca(Unidade unidade, Posicao posicao, Tabuleiro tabuleiro, Jogador adversario) {

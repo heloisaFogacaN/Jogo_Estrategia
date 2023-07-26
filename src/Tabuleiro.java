@@ -35,13 +35,18 @@ public class Tabuleiro {
         }
     }
 
-    public void removerPeca(Posicao posicao){
-
+    public void marcarPosicao(int posicao, String marcacao) {
+        posicoes.get(posicao).setMarcacao(marcacao);
     }
 
     public static boolean verificarTorreNaPosicao(int posicaoEscolhida) {
         Posicao posicao = posicoes.get(posicaoEscolhida - 1);
-        return posicao.getUnidade() instanceof Torre;
+        for (int i = 0; i < 62; i++) {
+            if(posicao==null){
+                return false;
+         }
+        }
+        return true;
     }
     public ArrayList<Posicao> getPosicoes() {
         return posicoes;

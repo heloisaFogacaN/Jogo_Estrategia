@@ -3,10 +3,12 @@ import java.util.Scanner;
 public class Main {
     private ArrayList<Posicao> listaPosicoes;
     private static  Scanner scanner = new Scanner(System.in);
-    static boolean torreEncontrada = false;
     static Tabuleiro tabuleiro = new Tabuleiro();
     public static void main(String[] args) {
+        Jogador j1 = new Jogador("Jorge", "Senh@123");
+        Jogador j2 = new Jogador("Wilson", "Wilson");
         mostrarTabuleiro();
+        boolean torreEncontrada = false;
 
         do {
             System.out.println("\nInforme a posição da torre que deseja conquistar:");
@@ -18,7 +20,7 @@ public class Main {
                     torreEncontrada = true;
                     Magos magoJogador = escolherMago();
                     Magos magoAdversario = escolherMago();
-                    batalhar( magoJogador, magoAdversario);
+                    batalhar( magoJogador, magoAdversario, escolhaPosicao, j1, j2);
                     break;
                 }
             }
@@ -28,7 +30,6 @@ public class Main {
         }while(!torreEncontrada);
 
     }
-
 
     private static Magos escolherMago() {
         System.out.println("""
@@ -42,7 +43,7 @@ public class Main {
 
         switch (opcao) {
             case 1:
-                tipoMago = new MagoBranco(570,45);
+                tipoMago = new MagoBranco(565,45);
                 break;
             case 2:
                 tipoMago = new MagoCinzento(560, 40);
@@ -54,22 +55,24 @@ public class Main {
                 System.out.println("Opção inválida. Escolha novamente.");
                 tipoMago = escolherMago();
         }
-
         return tipoMago;
     }
 
-    public static void batalhar(Magos magoJogador, Magos magoAdversario){
+    public static void batalhar(Magos magoJogador, Magos magoAdversario, int posicaoAtacada, Jogador j1, Jogador j2){
         Magos atacante = magoJogador;
         Magos defensor = magoAdversario;
 
+
         while (magoJogador.getVida() > 0 && magoAdversario.getVida() > 0) {
-            int dano = atacante.getAtaque();
-            defensor.receberAtaque(dano);
+            defensor.receberAtaque(atacante.getAtaque());
 
+            Magos jogada = atacante;
+            atacante = defensor;
+            defensor = jogada;
         }
-
         if (magoJogador.getVida() > 0) {
             System.out.println("O mago jogador venceu a batalha!");
+            j1.vencerBatalha(tabuleiro, posicaoAtacada);
         } else if (magoAdversario.getVida() > 0) {
             System.out.println("O mago adversário venceu a batalha!");
         } else {
