@@ -16,7 +16,9 @@ public class Main {
 
             Tabuleiro tabuleiro = new Tabuleiro();
             for (Posicao posicao : tabuleiro.posicoes) {
-                if (posicao.equals(escolhaPosicao) && Tabuleiro.verificarTorreNaPosicao(escolhaPosicao)==true) {
+                System.out.println("no for");
+                if (posicao.getNumero()==escolhaPosicao && Tabuleiro.verificarTorreNaPosicao(escolhaPosicao)) {
+                    System.out.println("no if");
                     torreEncontrada = true;
                     Magos magoJogador = escolherMago();
                     Magos magoAdversario = escolherMago();

@@ -41,6 +41,7 @@ public class Tabuleiro {
 
     public static boolean verificarTorreNaPosicao(int posicaoEscolhida) {
         Posicao posicao = posicoes.get(posicaoEscolhida - 1);
+        System.out.println("tabuleiro");
         for (int i = 0; i < 62; i++) {
             if(posicao==null){
                 return false;

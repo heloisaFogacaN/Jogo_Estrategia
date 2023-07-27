@@ -1,6 +1,8 @@
 public class Posicao {
     public String marcacao;
     private Unidade unidade;
+    private int numero;
+
 
     public Unidade getUnidade() {return unidade;}
 
@@ -12,6 +14,9 @@ public class Posicao {
         this.marcacao = marcacao;
     }
 
+    public int getNumero() {
+        return numero;
+    }
 
     @Override
     public String toString() {
