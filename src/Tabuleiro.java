@@ -1,3 +1,4 @@
+import java.lang.module.FindException;
 import java.util.ArrayList;
 
 public class Tabuleiro {
@@ -5,32 +6,41 @@ public class Tabuleiro {
 
     Tabuleiro() {
         ArrayList<Posicao> posicaoTorre = new ArrayList<>();
-
+        Posicao posicao = new Posicao(0);
         for (int i = 0; i < 62; i++) {
-            posicoes.add(new Posicao());
             if (i > 2 && i < 6) {
-                posicoes.get(i).setUnidade(new Torre(20, 0, 0, "branca"));
-                posicaoTorre.add(posicoes.get(i));
+                posicao = new Posicao(i);
+                posicao.setUnidade(new Torre(20, 0, 0, "branca"));
+                posicoes.add(posicao);
+//                posicoes.get(i).setUnidade(new Torre(20, 0, 0, "branca"));
+//                posicaoTorre.add(posicoes.get(i));
             }
-            if (i > 18 && i < 21) {
-                posicoes.get(i).setUnidade(new Torre(20, 0, 0, "branca"));
-                posicaoTorre.add(posicoes.get(i));
+             else if (i > 18 && i < 21) {
+                posicao = new Posicao(i);
+                posicao.setUnidade(new Torre(20, 0, 0, "branca"));
+                posicoes.add(posicao);
             }
-            if (i > 23 && i < 26) {
-                posicoes.get(i).setUnidade(new Torre(20, 0, 0, "branca"));
-                posicaoTorre.add(posicoes.get(i));
+           else  if (i > 23 && i < 26) {
+                posicao = new Posicao(i);
+                posicao.setUnidade(new Torre(20, 0, 0, "branca"));
+                posicoes.add(posicao);
             }
-            if (i > 36 && i < 39) {
-                posicoes.get(i).setUnidade(new Torre(20, 0, 0, "preta"));
-                posicaoTorre.add(posicoes.get(i));
+            else if (i > 36 && i < 39) {
+                posicao = new Posicao(i);
+                posicao.setUnidade(new Torre(20, 0, 0, "branca"));
+                posicoes.add(posicao);
             }
-            if (i > 41 && i < 44) {
-                posicoes.get(i).setUnidade(new Torre(20, 0, 0, "preta"));
-                posicaoTorre.add(posicoes.get(i));
+           else  if (i > 41 && i < 44) {
+                posicao = new Posicao(i);
+                posicao.setUnidade(new Torre(20, 0, 0, "branca"));
+                posicoes.add(posicao);
             }
-            if (i > 56 && i < 60) {
-                posicoes.get(i).setUnidade(new Torre(20, 0, 0, "preta"));
-                posicaoTorre.add(posicoes.get(i));
+          else  if (i > 56 && i < 60) {
+                posicao = new Posicao(i);
+                posicao.setUnidade(new Torre(20, 0, 0, "branca"));
+                posicoes.add(posicao);
+            } else {
+                posicoes.add(new Posicao(i));
             }
         }
     }
@@ -40,14 +50,14 @@ public class Tabuleiro {
     }
 
     public static boolean verificarTorreNaPosicao(Posicao posicaoEscolhida) {
-        Posicao posicao = posicoes.get(posicaoEscolhida.getNumero() - 1);
-        System.out.println("tabuleiro");
-        for (int i = 0; i < 62; i++) {
-            if(posicao==null){
-                return false;
-         }
+        for (Posicao posicao: posicoes) {
+            if (posicaoEscolhida.getNumero() == posicao.getNumero()){
+                if (posicao.getUnidade()!=null){
+                    return true;
+                }
+            }
         }
-        return true;
+        return false;
     }
     public ArrayList<Posicao> getPosicoes() {
         return posicoes;

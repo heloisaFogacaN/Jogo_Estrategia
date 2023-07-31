@@ -3,6 +3,9 @@ public class Posicao {
     private Unidade unidade;
     private int numero;
 
+    public Posicao(int numero){
+        this.numero = numero;
+    }
 
     public Unidade getUnidade() {return unidade;}
 

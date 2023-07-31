@@ -11,24 +11,26 @@ public class Main {
         boolean torreEncontrada = false;
 
         do {
-            Posicao escolhaPosicao= new Posicao();
+
             System.out.println("\nInforme a posição da torre que deseja conquistar:");
-            escolhaPosicao.setNumero(scanner.nextInt());
+            Posicao escolhaPosicao = new Posicao(scanner.nextInt() -1);
 
             Tabuleiro tabuleiro = new Tabuleiro();
             for (Posicao posicao : tabuleiro.posicoes) {
-                System.out.println("no for");
-                if (posicao.getNumero()==escolhaPosicao.getNumero() && Tabuleiro.verificarTorreNaPosicao(escolhaPosicao.getNumero()) {
-                    System.out.println("no if");
+                if (posicao.getNumero()==escolhaPosicao.getNumero() && Tabuleiro.verificarTorreNaPosicao(escolhaPosicao)) {
                     torreEncontrada = true;
+                    System.out.println("Jogador " + j1.getNome());
                     Magos magoJogador = escolherMago();
+                    System.out.println("Jogador " +j2.getNome());
                     Magos magoAdversario = escolherMago();
-                    batalhar( magoJogador, magoAdversario, escolhaPosicao.getNumero(), j1, j2);
+                    batalhar(magoJogador, magoAdversario, escolhaPosicao, j1, j2);
                     break;
                 }
             }
+
+
             if (!torreEncontrada) {
-                System.out.println("Não há uma torre na posição informada. Escolha outra posição.");
+                System.out.println("Não há uma torre na posição informada. Escolha outra posição!");
             }
         }while(!torreEncontrada);
 
@@ -61,7 +63,7 @@ public class Main {
         return tipoMago;
     }
 
-    public static void batalhar(Magos magoJogador, Magos magoAdversario, int posicaoAtacada, Jogador j1, Jogador j2){
+    public static void batalhar(Magos magoJogador, Magos magoAdversario, Posicao posicaoAtacada, Jogador j1, Jogador j2){
         Magos atacante = magoJogador;
         Magos defensor = magoAdversario;
 
@@ -75,7 +77,7 @@ public class Main {
         }
         if (magoJogador.getVida() > 0) {
             System.out.println("O mago jogador venceu a batalha!");
-            j1.vencerBatalha(tabuleiro, posicaoAtacada);
+            j1.vencerBatalha(tabuleiro, posicaoAtacada.getNumero());
         } else if (magoAdversario.getVida() > 0) {
             System.out.println("O mago adversário venceu a batalha!");
         } else {
@@ -88,7 +90,7 @@ public class Main {
             int posicao = 0;
 
             for (int i = 0; i < 7; i++) {
-                for (int j = 0; j < 9; j++) {
+                for (int j = 0; j <9; j++) {
                     if (posicao < tabuleiro.getPosicoes().size()) {
                         Unidade unidade = tabuleiro.getPosicoes().get(posicao).getUnidade();
                         if (unidade != null) {
