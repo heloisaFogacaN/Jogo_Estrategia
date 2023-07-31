@@ -11,18 +11,19 @@ public class Main {
         boolean torreEncontrada = false;
 
         do {
+            Posicao escolhaPosicao= new Posicao();
             System.out.println("\nInforme a posição da torre que deseja conquistar:");
-            int escolhaPosicao = scanner.nextInt();
+            escolhaPosicao.setNumero(scanner.nextInt());
 
             Tabuleiro tabuleiro = new Tabuleiro();
             for (Posicao posicao : tabuleiro.posicoes) {
                 System.out.println("no for");
-                if (posicao.getNumero()==escolhaPosicao && Tabuleiro.verificarTorreNaPosicao(escolhaPosicao)) {
+                if (posicao.getNumero()==escolhaPosicao.getNumero() && Tabuleiro.verificarTorreNaPosicao(escolhaPosicao.getNumero()) {
                     System.out.println("no if");
                     torreEncontrada = true;
                     Magos magoJogador = escolherMago();
                     Magos magoAdversario = escolherMago();
-                    batalhar( magoJogador, magoAdversario, escolhaPosicao, j1, j2);
+                    batalhar( magoJogador, magoAdversario, escolhaPosicao.getNumero(), j1, j2);
                     break;
                 }
             }

@@ -18,6 +18,10 @@ public class Posicao {
         return numero;
     }
 
+    public void setNumero(int numero) {
+        this.numero = numero;
+    }
+
     @Override
     public String toString() {
         return "[" + unidade + "]";

@@ -39,8 +39,8 @@ public class Tabuleiro {
         posicoes.get(posicao).setMarcacao(marcacao);
     }
 
-    public static boolean verificarTorreNaPosicao(int posicaoEscolhida) {
-        Posicao posicao = posicoes.get(posicaoEscolhida - 1);
+    public static boolean verificarTorreNaPosicao(Posicao posicaoEscolhida) {
+        Posicao posicao = posicoes.get(posicaoEscolhida.getNumero() - 1);
         System.out.println("tabuleiro");
         for (int i = 0; i < 62; i++) {
             if(posicao==null){
