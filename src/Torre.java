@@ -12,6 +12,10 @@ public class Torre extends Unidade{
         this.cor = cor;
     }
 
+    public String getCor() {
+        return cor;
+    }
+
     @Override
     public ArrayList<Posicao> possiveisMovimento(Tabuleiro tabuleiro) {
         return null;

@@ -3,25 +3,29 @@ import java.util.ArrayList;
 public class Jogador {
     private String nome;
     private String senha;
-    private String pontos;
+    private int pontos;
+    private String cor;
     private ArrayList<Unidade> unidades;
 
     private int elixir;
 
-    public Jogador(String nome, String senha){
+    public Jogador(String nome, String senha, String cor){
         this.nome=nome;
         this.senha=senha;
+        this.cor=cor;
     }
 
+    public String getCor() {
+        return cor;
+    }
 
     public String getNome() {
         return nome;
     }
 
-    public String getSenha() {
-        return senha;
+    public int getPontos() {
+        return pontos;
     }
-
 
     public ArrayList<Unidade> getUnidade() {
         return unidades;
