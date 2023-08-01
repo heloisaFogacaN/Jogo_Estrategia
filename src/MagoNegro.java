@@ -1,10 +1,7 @@
 public class MagoNegro extends Magos{
-    public MagoNegro(int vida, int ataque) {
+    public MagoNegro(int vida, int ataque, int ataqueEspecial) {
         super(vida, ataque);
     }
 
-    @Override
-    public void ataqueEspecial() {
-        setAtaque(60);
-    }
+
 }

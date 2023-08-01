@@ -1,14 +1,31 @@
 import java.util.ArrayList;
 
 public abstract class Magos {
-    private int vida, ataque, rodadasEscudoAtivo;
+    private int vida, ataque, ataqueEspecial;
     private boolean escudoAtivo;
-    public Magos(int vida, int ataque) {
+    private Jogador jogador;
+
+
+    public Magos(Jogador jogador, int vida, int ataque, int defesa, int ataqueEspecial) {
         this.vida=vida;
         this.ataque=ataque;
+        this.jogador = jogador;
+        this.ataqueEspecial = ataqueEspecial;
     }
 
-    public abstract void ataqueEspecial();
+
+
+    public int getAtaqueEspecial() {
+        return ataqueEspecial;
+    }
+
+    public Magos(int vida, int ataque) {
+    }
+
+    public Jogador getJogador() {
+        return jogador;
+    }
+
 
 
     public void receberAtaque(int ataqueOponente) {
