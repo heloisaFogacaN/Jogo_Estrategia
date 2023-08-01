@@ -5,12 +5,26 @@ public class Main {
     private static  Scanner scanner = new Scanner(System.in);
     static Tabuleiro tabuleiro = new Tabuleiro();
     public static void main(String[] args) {
+        boolean jogoAcabou=false;
         Jogador j1 = new Jogador("Jorge", "Senh@123");
         Jogador j2 = new Jogador("Wilson", "Wilson");
         mostrarTabuleiro();
+        do{
+            pedirBatalha(j1,j2);
+        } while(!jogoAcabou);
+
+    }
+
+    private static void pedirBatalha(Jogador j1, Jogador j2) {
         boolean torreEncontrada = false;
+        int turno=1;
 
         do {
+            if(turno==1){
+                System.out.println("Jogador "+ j1.getNome());
+            } else if(turno==2){
+                System.out.println("Jogador "+ j2.getNome());
+            }
 
             System.out.println("\nInforme a posição da torre que deseja conquistar:");
             Posicao escolhaPosicao = new Posicao(scanner.nextInt() -1);
@@ -23,17 +37,14 @@ public class Main {
                     Magos magoJogador = escolherMago();
                     System.out.println("Jogador " +j2.getNome());
                     Magos magoAdversario = escolherMago();
-                    batalhar(magoJogador, magoAdversario, escolhaPosicao, j1, j2);
+                    batalhar(magoJogador, magoAdversario, escolhaPosicao, j1, j2, turno);
                     break;
                 }
             }
-
-
             if (!torreEncontrada) {
                 System.out.println("Não há uma torre na posição informada. Escolha outra posição!");
             }
         }while(!torreEncontrada);
-
     }
 
     private static Magos escolherMago() {
@@ -63,32 +74,45 @@ public class Main {
         return tipoMago;
     }
 
-    public static void batalhar(Magos magoJogador, Magos magoAdversario, Posicao posicaoAtacada, Jogador j1, Jogador j2){
+    public static void batalhar(Magos magoJogador, Magos magoAdversario, Posicao posicaoAtacada, Jogador j1, Jogador j2, int turno){
         Magos atacante = magoJogador;
         Magos defensor = magoAdversario;
 
+        do{
+            if(turno==1){
+                System.out.println("Jogador "+j1.getNome()+ " você deseja fazer qual jogada: ");
+            } else if(turno==2){
+                System.out.println("Jogador "+j2.getNome()+ " você deseja fazer qual jogada: ");
+            }
 
-        while (magoJogador.getVida() > 0 && magoAdversario.getVida() > 0) {
-            defensor.receberAtaque(atacante.getAtaque());
+            System.out.println("""
+                    1- Ataque
+                    2- Ataque Especial
+                    """);
+            int opcao=scanner.nextInt();
 
-            Magos jogada = atacante;
-            atacante = defensor;
-            defensor = jogada;
-        }
-        if (magoJogador.getVida() > 0) {
-            System.out.println("O mago jogador venceu a batalha!");
-            j1.vencerBatalha(tabuleiro, posicaoAtacada.getNumero());
-        } else if (magoAdversario.getVida() > 0) {
-            System.out.println("O mago adversário venceu a batalha!");
-        } else {
-            System.out.println("A batalha terminou em empate!");
-        }
+          if (magoJogador.getVida() > 0 && magoAdversario.getVida() > 0) {
+              if(opcao == 1){
+                  defensor.receberAtaque(atacante.getAtaque());
+                  System.out.println(defensor.getVida());
+                  if(turno==1){
+                      atacante = magoAdversario;
+                      defensor = magoJogador;
+                      turno++;
+                  } else if(turno==2){
+                      atacante = magoJogador;
+                      defensor = magoAdversario;
+                      turno--;
+                  }
+              }
+            }
+
+        } while(turno!=3);
     }
 
 
     public static void mostrarTabuleiro() {
             int posicao = 0;
-
             for (int i = 0; i < 7; i++) {
                 for (int j = 0; j <9; j++) {
                     if (posicao < tabuleiro.getPosicoes().size()) {
@@ -105,6 +129,5 @@ public class Main {
                 }
                 System.out.println();
             }
-            posicao = 0;
         }
 }
