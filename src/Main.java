@@ -49,29 +49,37 @@ public class Main {
     }
 
     private static Magos escolherMago() {
-        System.out.println("""
+        boolean opcaoValida=false;
+        Magos tipoMago = null;
+        do{
+            System.out.println("""
                 Você deseja utilizar qual mago?
                 1- Mago Branco
                 2- Mago Cinzento
                 3- Mago Negro
                 """);
-        int opcao = scanner.nextInt();
-        Magos tipoMago = null;
+            int opcao = scanner.nextInt();
 
-        switch (opcao) {
-            case 1:
-                tipoMago = new MagoBranco(565, 45, 80);
-                break;
-            case 2:
-                tipoMago = new MagoCinzento(560, 40, 70);
-                break;
-            case 3:
-                tipoMago = new MagoNegro(550, 50, 60);
-                break;
-            default:
-                System.out.println("Opção inválida. Escolha novamente.");
-                tipoMago = escolherMago();
-        }
+            switch (opcao) {
+                case 1:
+                    tipoMago = new MagoBranco(565, 45);
+                    opcaoValida=true;
+                    break;
+                case 2:
+                    tipoMago = new MagoCinzento(560, 40);
+                    opcaoValida=true;
+                    break;
+                case 3:
+                    tipoMago = new MagoNegro(550, 50);
+                    opcaoValida=true;
+                    break;
+                default:
+                    System.out.println("Opção inválida. Escolha novamente.");
+            }
+        } while(!opcaoValida);
+
+        System.out.println(tipoMago.getVida());
+
         return tipoMago;
     }
 
@@ -79,49 +87,48 @@ public class Main {
         Magos atacante = magoJogador;
         Magos defensor = magoAdversario;
         int turno = 1;
-        boolean jogoAcabou= false;
+        boolean jogoAcabou = false;
 
-        while (!jogoAcabou) {
+        do {
             if (turno == 1) {
                 System.out.println("Jogador " + j1.getNome() + ", você deseja fazer qual jogada: ");
+                System.out.println(magoJogador.getVida());
             } else if (turno == 2) {
                 System.out.println("Jogador " + j2.getNome() + ", você deseja fazer qual jogada: ");
+                System.out.println(magoAdversario.getVida());
             }
 
             System.out.println("""
-                1- Ataque
-                2- Ataque Especial
-                """);
+            1- Ataque
+            2- Ataque Especial (você pode fazer apenas três ataques especiais por rodada)
+            """);
             int opcao = scanner.nextInt();
 
-            if (magoJogador.getVida() > 0 && magoAdversario.getVida() > 0) {
-                if (opcao == 1) {
-                    // Ataque normal
-                    defensor.receberAtaque(atacante.getAtaque());
-                    System.out.println("Vida do Mago após o ataque: " + defensor.getVida());
-                } else if (opcao == 2) {
-                    if (opcao == 2) {
-                        // Ataque especial
-                        int ataqueTotal = atacante.getAtaque() + atacante.getAtaqueEspecial();
-                        defensor.receberAtaque(ataqueTotal);
-                        System.out.println("Vida do Mago após o ataque especial: " + defensor.getVida());
-                    }
-
-                }
-
-                // Verificar se o defensor foi derrotado
-                if (defensor.getVida() <= 0) {
-                    System.out.println("Jogador " + atacante.getJogador().getNome() + " venceu a batalha!");
-                    break;
-                }
-
-                // Alternar os jogadores após cada ataque
-                Magos temp = atacante;
-                atacante = defensor;
-                defensor = temp;
-                turno = (turno == 1) ? 2 : 1;
+            if (opcao == 1) {
+                System.out.println("tô aqui pra morrer");
+                // Ataque normal
+                defensor.receberAtaque(atacante.getAtaque());
+                System.out.println("Vida do Mago após o ataque: " + defensor.getVida());
+            } else if (opcao == 2) {
+                System.out.println("maluquice");
+                // Ataque especial
+                int ataqueTotal = atacante.getAtaque() + atacante.getAtaqueEspecial();
+                defensor.receberAtaque(ataqueTotal);
+                System.out.println("Vida do Mago após o ataque especial: " + defensor.getVida());
             }
-        }
+
+            // Verificar se o defensor foi derrotado
+            if (defensor.getVida() <= 0) {
+                System.out.println("Jogador venceu a batalha!");
+                jogoAcabou = true; // Define que o jogo acabou
+            }
+
+            // Alternar os jogadores após cada ataque
+            Magos temp = atacante;
+            atacante = defensor;
+            defensor = temp;
+            turno = (turno == 1) ? 2 : 1;
+        } while (!jogoAcabou);
     }
 
 
