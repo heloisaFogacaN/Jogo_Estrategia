@@ -22,20 +22,13 @@ public class Jogador {
         return senha;
     }
 
-    public int getElixir() {
-        return elixir;
-    }
-
-    public void setElixir(int elixir) {
-        this.elixir = elixir;
-    }
 
     public ArrayList<Unidade> getUnidade() {
         return unidades;
     }
 
-    public void vencerBatalha(Tabuleiro tabuleiro, int posicao) {
-        tabuleiro.marcarPosicao(posicao, "x");
+    public void vencerBatalha(Tabuleiro tabuleiro, Posicao posicaoAtacada) {
+        tabuleiro.marcarPosicao(posicaoAtacada, "x");
         this.pontos+=1;
     }
 

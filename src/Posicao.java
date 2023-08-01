@@ -17,6 +17,11 @@ public class Posicao {
         this.marcacao = marcacao;
     }
 
+
+    public String getMarcacao() {
+        return marcacao;
+    }
+
     public int getNumero() {
         return numero;
     }

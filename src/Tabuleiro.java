@@ -12,8 +12,6 @@ public class Tabuleiro {
                 posicao = new Posicao(i);
                 posicao.setUnidade(new Torre(20, 0, 0, "branca"));
                 posicoes.add(posicao);
-//                posicoes.get(i).setUnidade(new Torre(20, 0, 0, "branca"));
-//                posicaoTorre.add(posicoes.get(i));
             }
              else if (i > 18 && i < 21) {
                 posicao = new Posicao(i);
@@ -45,8 +43,9 @@ public class Tabuleiro {
         }
     }
 
-    public void marcarPosicao(int posicao, String marcacao) {
-        posicoes.get(posicao).setMarcacao(marcacao);
+    public void marcarPosicao(Posicao posicao, String marcacao) {
+        posicoes.get(posicao.getNumero()).setUnidade(null);
+        posicoes.get(posicao.getNumero()).setMarcacao(marcacao);
     }
 
     public static boolean verificarTorreNaPosicao(Posicao posicaoEscolhida) {
