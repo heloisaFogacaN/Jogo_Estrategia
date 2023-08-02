@@ -11,14 +11,6 @@ public abstract class Unidade {
         this.defesa = defesa;
     }
 
-    public boolean verificaPeca(Posicao posicao, ArrayList<Posicao> possiveisMovimentos) {
-        if (posicao.getUnidade() == null) {
-            possiveisMovimentos.add(posicao);
-            return false;
-
-        }
-        return true;
-    }
     public boolean mover(Tabuleiro tabuleiro, Posicao posicao) {
         ArrayList<Posicao> possiveisPosicoes = possiveisMovimento(tabuleiro);
         for (Posicao posicaoPossivel : possiveisPosicoes) {
@@ -37,13 +29,6 @@ public abstract class Unidade {
 
     }
     public abstract ArrayList<Posicao> possiveisMovimento(Tabuleiro tabuleiro);
-
-    public Posicao getPosicao() {
-        return posicao;
-    }
-
-
-
 }
 
 

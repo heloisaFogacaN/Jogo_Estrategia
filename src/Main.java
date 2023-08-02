@@ -3,25 +3,24 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
-    private ArrayList<Posicao> listaPosicoes;
     private static Scanner scanner = new Scanner(System.in);
-    static Tabuleiro tabuleiro = new Tabuleiro();
 
     public static void main(String[] args) {
         boolean jogoAcabou = false;
+        Tabuleiro tabuleiro = new Tabuleiro();
+
         Jogador j1 = new Jogador("Jorge", "Senh@123", "branco");
         Jogador j2 = new Jogador("Wilson", "Wilson", "preta");
         int turno = 1;
 
         do {
-            mostrarTabuleiro();
+            mostrarTabuleiro(tabuleiro);
             pedirBatalha(j1, j2, turno);
             if (turno == 1) {
                 turno++;
             } else {
                 turno--;
             }
-
             jogoAcabou = verificarPontuacao(j1, j2, jogoAcabou);
 
         } while (!jogoAcabou);
@@ -44,8 +43,6 @@ public class Main {
         boolean torreEncontrada = false;
 
         do {
-
-            mostrarNomes();
             if (turno == 1) {
                 System.out.println("Jogador " + j1.getNome());
             } else if (turno == 2) {
@@ -65,7 +62,7 @@ public class Main {
                     System.out.println("Jogador " + j2.getNome());
                     Magos magoAdversario = escolherMago();
                     objetoTorre = (Torre) posicao.getUnidade();
-                    batalhar(magoJogador, magoAdversario, escolhaPosicao, j1, j2, objetoTorre);
+                    batalhar(tabuleiro, magoJogador, magoAdversario, escolhaPosicao, j1, j2, objetoTorre);
                     break;
                 }
             }
@@ -75,8 +72,9 @@ public class Main {
         } while (!torreEncontrada);
     }
 
-    private static void mostrarNomes() {
+    private static void mostrarNomes(Jogador j1, Jogador j2, int turno) {
     }
+
 
     private static Magos escolherMago() {
         boolean opcaoValida = false;
@@ -111,7 +109,7 @@ public class Main {
         return tipoMago;
     }
 
-    public static void batalhar(Magos magoJogador, Magos magoAdversario, Posicao posicaoAtacada, Jogador j1, Jogador j2, Torre objetoTorre) {
+    public static void batalhar(Tabuleiro tabuleiro, Magos magoJogador, Magos magoAdversario, Posicao posicaoAtacada, Jogador j1, Jogador j2, Torre objetoTorre) {
         Magos atacante = magoJogador;
         Magos defensor = magoAdversario;
         int turno = 1;
@@ -182,16 +180,25 @@ public class Main {
             }
 
             if (trocarJogador) {
-                Magos temp = atacante;
+                // Cria uma variável temporária para armazenar o jogador atual (atacante)
+                Magos trocar = atacante;
+                // O jogador atual (atacante) passa a ser o defensor
                 atacante = defensor;
-                defensor = temp;
-                turno = (turno == 1) ? 2 : 1;
+                // O jogador anteriormente defensor passa a ser o atacante novamente
+                defensor = trocar;
+
+                if (turno == 1) {
+                    turno++;
+                } else {
+                    turno--;
+                }
             }
+
         } while (!jogoAcabou);
     }
 
 
-    public static void mostrarTabuleiro() {
+    public static void mostrarTabuleiro(Tabuleiro tabuleiro) {
         int posicao = 0;
 
         for (int i = 0; i < 7; i++) {
@@ -199,12 +206,12 @@ public class Main {
                 if (posicao < tabuleiro.getPosicoes().size()) {
                     Posicao posicaoAtual = tabuleiro.getPosicoes().get(posicao);
                     Unidade unidade = posicaoAtual.getUnidade();
-                    String marca = posicaoAtual.getMarcacao();
+                    String marcacao = posicaoAtual.getMarcacao();
 
                     if (unidade != null) {
                         System.out.print("|" + unidade + "| ");
-                    } else if (marca != null && !marca.isEmpty()) {
-                        System.out.print("|" + marca + "| ");
+                    } else if (marcacao != null) {
+                        System.out.print("|" + marcacao + "| ");
                     } else {
                         System.out.print("|  | ");
                     }
@@ -216,5 +223,4 @@ public class Main {
             System.out.println();
         }
     }
-
 }
