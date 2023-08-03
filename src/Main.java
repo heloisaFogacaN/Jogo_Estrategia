@@ -16,18 +16,17 @@ public class Main {
         do {
             mostrarTabuleiro(tabuleiro);
             pedirBatalha(j1, j2, turno);
-            if (turno == 1) {
-                turno++;
-            } else {
-                turno--;
-            }
-            jogoAcabou = verificarPontuacao(j1, j2, jogoAcabou);
+
+            // Alternância do turno entre 1 e 2
+            turno = (turno == 1) ? 2 : 1;
+            jogoAcabou = verificarPontuacao(j1, j2);
 
         } while (!jogoAcabou);
-
     }
 
-    private static boolean verificarPontuacao(Jogador j1, Jogador j2, boolean jogoAcabou) {
+    private static boolean verificarPontuacao(Jogador j1, Jogador j2) {
+        boolean jogoAcabou = false;
+
         if (j1.getPontos() == 7) {
             System.out.println("O jogador " + j1.getNome() + " venceu o jogo!");
             jogoAcabou = true;
@@ -35,6 +34,7 @@ public class Main {
             System.out.println("O jogador " + j2.getNome() + " venceu o jogo!");
             jogoAcabou = true;
         }
+
         return jogoAcabou;
     }
 
