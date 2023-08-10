@@ -22,5 +22,4 @@ public class Torre extends Unidade{
     public String toString() {
         return " T ";
     }
-    j
 }

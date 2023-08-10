@@ -16,7 +16,6 @@ public abstract class Unidade {
     public String getCor() {
         return cor;
     }
-
 }
 
 
