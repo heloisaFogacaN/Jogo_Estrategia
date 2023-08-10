@@ -10,17 +10,17 @@ public class Tabuleiro {
         for (int i = 0; i < 62; i++) {
             if (i > 2 && i < 6) {
                 posicao = new Posicao(i);
-                posicao.setUnidade(new Torre(20, 0, 0, "branca"));
+                posicao.setUnidade(new Torre(20, 0, 0, "branco"));
                 posicoes.add(posicao);
             }
              else if (i > 18 && i < 21) {
                 posicao = new Posicao(i);
-                posicao.setUnidade(new Torre(20, 0, 0, "branca"));
+                posicao.setUnidade(new Torre(20, 0, 0, "branco"));
                 posicoes.add(posicao);
             }
            else  if (i > 23 && i < 26) {
                 posicao = new Posicao(i);
-                posicao.setUnidade(new Torre(20, 0, 0, "branca"));
+                posicao.setUnidade(new Torre(20, 0, 0, "branco"));
                 posicoes.add(posicao);
             }
             else if (i > 36 && i < 39) {
@@ -59,15 +59,15 @@ public class Tabuleiro {
         return false;
     }
 
-    public static boolean verrificaCor(Posicao posicaoAtacada, Jogador jogador){
+    public static boolean verificaCor(Posicao posicaoAtacada, Jogador jogador){
         for(Posicao posicao : posicoes){
             if (posicaoAtacada.getNumero() == posicao.getNumero()){
                 if (!(posicaoAtacada!=null) && posicaoAtacada.getUnidade().getCor().equals(jogador.getCor())){
-                    return true;
+                    return false;
                 }
             }
         }
-        return false;
+        return true;
     }
     public ArrayList<Posicao> getPosicoes() {
         return posicoes;

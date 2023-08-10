@@ -82,9 +82,6 @@ public class Main {
     }
 
     public static void batalhar(Tabuleiro tabuleiro, Magos magoJogador, Magos magoAdversario, Posicao posicaoAtacada, Jogador j1, Jogador j2) {
-
-
-
         System.out.println(magoJogador);
         int turno = 1;
         int contadorAtaqueEspecial = 0;
@@ -141,28 +138,23 @@ public class Main {
             }
             //Verifica quem venceu
             if (Tabuleiro.verificarTorreNaPosicao(posicaoAtacada)) {
-
                 if (magoAdversario.getVida() <= 0) {
-                    if (turno == 1) {
-                        if (Tabuleiro.verrificaCor(posicaoAtacada, j1)) {
+                        if (Tabuleiro.verificaCor(posicaoAtacada, j1)) {
                             System.out.println("O dono da torre venceu a batalha!");
                         } else {
                             System.out.println("Jogador " + j1.getNome() + " venceu a batalha!");
                             j1.vencerBatalha(tabuleiro, posicaoAtacada);
                             System.out.println(magoJogador.getVida());
                         }
-                    }
                     jogoAcabou = true; // Define que o jogo acabou
                 } else if (magoJogador.getVida() <= 0) {
-                    if (turno == 2) {
-                        if ((Tabuleiro.verrificaCor(posicaoAtacada, j2))) {
+                        if ((Tabuleiro.verificaCor(posicaoAtacada, j2))) {
                             System.out.println("O dono da torre venceu a batalha!");
                         } else {
                             System.out.println("Jogador " + j2.getNome() + " venceu a batalha!");
                             j2.vencerBatalha(tabuleiro, posicaoAtacada);
-                            System.out.println(magoJogador.getVida());
+                            System.out.println(magoAdversario.getVida());
                         }
-                    }
                     jogoAcabou = true; // Define que o jogo acabou
                 }
             }
