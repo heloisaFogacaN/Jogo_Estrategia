@@ -16,10 +16,8 @@ public class Main {
         do {
             mostrarTabuleiro(tabuleiro);
             pedirBatalha(tabuleiro, j1, j2);
-
             turno = (turno == 1) ? 2 : 1;
             jogoAcabou = verificarPontuacao(j1, j2);
-
         } while (!jogoAcabou);
     }
 
@@ -82,7 +80,6 @@ public class Main {
     }
 
     public static void batalhar(Tabuleiro tabuleiro, Magos magoJogador, Magos magoAdversario, Posicao posicaoAtacada, Jogador j1, Jogador j2) {
-        System.out.println(magoJogador);
         int turno = 1;
         int contadorAtaqueEspecial = 0;
         boolean jogoAcabou = false;
@@ -105,10 +102,10 @@ public class Main {
                 case 1:
                     // Ataque normal
                     if (turno==1){
-                        magoAdversario.receberAtaque(magoJogador.getAtaque());
+                        atacar( magoAdversario, magoJogador.getAtaque());
                         System.out.println("Vida do Mago do jogador " +j2.getNome()+" após o ataque: " + magoAdversario.getVida());
                     } else{
-                        magoJogador.receberAtaque(magoAdversario.getAtaque());
+                        atacar( magoJogador, magoAdversario.getAtaque());
                         System.out.println("Vida do Mago do jogador " +j1.getNome()+" após o ataque: " + magoJogador.getVida());
                     }
                     trocarJogador = true;
@@ -118,12 +115,10 @@ public class Main {
                     if (contadorAtaqueEspecial <= 3) {
                         // Ataque especial
                         if(turno==1){
-                            int ataqueTotal = magoJogador.getAtaque() + magoJogador.getAtaqueEspecial();
-                            magoAdversario.receberAtaque(ataqueTotal);
-                            System.out.println("Vida do Mago após o ataque especial: " + magoAdversario.getVida());
+                            atacar( magoAdversario, (magoJogador.getAtaque()+ magoAdversario.getAtaqueEspecial()));
+                            System.out.println("Vida do Mago após o ataque especial: " + magoJogador.getVida());
                         } else {
-                            int ataqueTotal = magoAdversario.getAtaque() + magoAdversario.getAtaqueEspecial();
-                            magoJogador.receberAtaque(ataqueTotal);
+                            atacar( magoJogador, (magoAdversario.getAtaque()+ magoAdversario.getAtaqueEspecial()));
                             System.out.println("Vida do Mago após o ataque especial: " + magoJogador.getVida());
                         }
                         trocarJogador = true;
@@ -162,6 +157,10 @@ public class Main {
                 turno = (turno == 1) ? 2 : 1;
             }
         } while (!jogoAcabou);
+    }
+
+    private static void atacar(Magos adversario, int ataque) {
+        adversario.receberAtaque(ataque);
     }
 
     private static boolean verificarPontuacao(Jogador j1, Jogador j2) {
