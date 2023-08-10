@@ -18,6 +18,9 @@ public abstract class Magos {
     public void receberAtaque(int ataqueOponente) {
             this.setVida(this.getVida() - ataqueOponente);
     }
+    public static void atacar(Magos adversario, int ataque) {
+        adversario.receberAtaque(ataque);
+    }
 
     public void setVida(int vida) {
         this.vida = vida;
