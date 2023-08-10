@@ -38,6 +38,6 @@ public class Jogador {
         tabuleiro.marcarPosicao(posicaoAtacada, " X ");
         this.pontos+=1;
     }
-
+l
 
 }
