@@ -20,6 +20,6 @@ public class Torre extends Unidade{
 
     @Override
     public String toString() {
-        return "Torre";
+        return " T ";
     }
 }

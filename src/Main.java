@@ -141,11 +141,8 @@ public class Main {
             }
             //Verifica quem venceu
             if (Tabuleiro.verificarTorreNaPosicao(posicaoAtacada)) {
-                System.out.println("tem torre");
-                System.out.println(magoJogador.getVida());
 
                 if (magoAdversario.getVida() <= 0) {
-                    System.out.println("o 1 tá perdendo ");
                     if (turno == 1) {
                         if (Tabuleiro.verrificaCor(posicaoAtacada, j1)) {
                             System.out.println("O dono da torre venceu a batalha!");
@@ -157,7 +154,6 @@ public class Main {
                     }
                     jogoAcabou = true; // Define que o jogo acabou
                 } else if (magoJogador.getVida() <= 0) {
-                    System.out.println("o 2 tá perdendo");
                     if (turno == 2) {
                         if ((Tabuleiro.verrificaCor(posicaoAtacada, j2))) {
                             System.out.println("O dono da torre venceu a batalha!");
@@ -204,7 +200,7 @@ public class Main {
                     } else if (marcacao != null) {
                         System.out.print("|" + marcacao + "| ");
                     } else {
-                        System.out.print("|  | ");
+                        System.out.print("|   | ");
                     }
                     posicao++;
                 } else {

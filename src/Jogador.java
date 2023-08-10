@@ -35,7 +35,7 @@ public class Jogador {
     }
 
     public void vencerBatalha(Tabuleiro tabuleiro, Posicao posicaoAtacada) {
-        tabuleiro.marcarPosicao(posicaoAtacada, "x");
+        tabuleiro.marcarPosicao(posicaoAtacada, " X ");
         this.pontos+=1;
     }
 
