@@ -1,3 +1,4 @@
+import javax.swing.*;
 import java.lang.module.FindException;
 import java.util.ArrayList;
 
@@ -51,6 +52,17 @@ public class Tabuleiro {
         for (Posicao posicao: posicoes) {
             if (posicaoEscolhida.getNumero() == posicao.getNumero()){
                 if (posicao.getUnidade()!=null){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public static boolean verrificaCor(Posicao posicaoAtacada, Jogador jogador){
+        for(Posicao posicao : posicoes){
+            if (posicaoAtacada.getNumero() == posicao.getNumero()){
+                if (!(posicaoAtacada!=null) && posicaoAtacada.getUnidade().getCor().equals(jogador.getCor())){
                     return true;
                 }
             }

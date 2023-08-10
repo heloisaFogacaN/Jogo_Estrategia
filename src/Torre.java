@@ -1,10 +1,10 @@
 import java.util.ArrayList;
 
 public class Torre extends Unidade{
-    String cor;
+    private String cor;
 
     public Torre(int vida, int ataque, int defesa, String cor) {
-        super(vida, ataque, defesa);
+        super(vida, ataque, defesa, cor);
         this.cor=cor;
     }
 
@@ -16,10 +16,7 @@ public class Torre extends Unidade{
         return cor;
     }
 
-    @Override
-    public ArrayList<Posicao> possiveisMovimento(Tabuleiro tabuleiro) {
-        return null;
-    }
+
 
     @Override
     public String toString() {

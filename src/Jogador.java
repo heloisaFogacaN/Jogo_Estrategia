@@ -5,9 +5,8 @@ public class Jogador {
     private String senha;
     private int pontos;
     private String cor;
-    private ArrayList<Unidade> unidades;
+    private Magos mago;
 
-    private int elixir;
 
     public Jogador(String nome, String senha, String cor){
         this.nome=nome;
@@ -27,8 +26,12 @@ public class Jogador {
         return pontos;
     }
 
-    public ArrayList<Unidade> getUnidade() {
-        return unidades;
+    public void setMago(Magos mago) {
+        this.mago = mago;
+    }
+
+    public Magos getMago() {
+        return mago;
     }
 
     public void vencerBatalha(Tabuleiro tabuleiro, Posicao posicaoAtacada) {
@@ -36,12 +39,5 @@ public class Jogador {
         this.pontos+=1;
     }
 
-    public boolean moverPeca(Unidade unidade, Posicao posicao, Tabuleiro tabuleiro, Jogador adversario) {
-        Unidade unidadeAdversaria = posicao.getUnidade();
-        boolean valida=unidade.mover(tabuleiro, posicao);
-        if(posicao.getUnidade() != null){
-            adversario.unidades.remove(posicao.getUnidade());
-        }
-        return true;
-    }
+
 }

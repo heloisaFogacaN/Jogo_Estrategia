@@ -3,32 +3,20 @@ import java.util.ArrayList;
 public abstract class Unidade {
     private Posicao posicao;
     private int vida, ataque, defesa;
+    private String cor;
 
 
-    public Unidade(int vida, int ataque, int defesa) {
+    public Unidade(int vida, int ataque, int defesa, String cor) {
         this.ataque = ataque;
         this.vida = vida;
         this.defesa = defesa;
+        this.cor=cor;
     }
 
-    public boolean mover(Tabuleiro tabuleiro, Posicao posicao) {
-        ArrayList<Posicao> possiveisPosicoes = possiveisMovimento(tabuleiro);
-        for (Posicao posicaoPossivel : possiveisPosicoes) {
-            if (posicaoPossivel == posicao) {
-                //atribuindo a peça para nova posição no tabuleiro
-                posicao.setUnidade(this);
-                //removendo a peça da posição anterior
-                this.posicao.setUnidade(null);
-                //trocando a posição atual da peça
-                this.posicao = posicao;
-                return  true;
-            }
-        }
-        return   false;
-//        this.posicao = posicao;
-
+    public String getCor() {
+        return cor;
     }
-    public abstract ArrayList<Posicao> possiveisMovimento(Tabuleiro tabuleiro);
+
 }
 
 
