@@ -14,6 +14,8 @@ public class Main {
         int turno = 1;
 
         do {
+            System.out.println(j1.getPontos() +" pontos jogador 1");
+            System.out.println(j2.getPontos() +" pontos jogador 2");
             mostrarTabuleiro(tabuleiro);
             pedirBatalha(tabuleiro, j1, j2);
             turno = (turno == 1) ? 2 : 1;
