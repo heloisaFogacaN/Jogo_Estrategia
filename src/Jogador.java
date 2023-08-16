@@ -14,6 +14,7 @@ public class Jogador {
         this.cor=cor;
     }
 
+
     public String getCor() {
         return cor;
     }
@@ -33,6 +34,8 @@ public class Jogador {
     public Magos getMago() {
         return mago;
     }
+
+
 
     public void vencerBatalha(Tabuleiro tabuleiro, Posicao posicaoAtacada) {
         tabuleiro.marcarPosicao(posicaoAtacada, " X ");
