@@ -177,11 +177,11 @@ public class Main {
                     String marcacao = posicaoAtual.getMarcacao();
 
                     if (unidade != null) {
-                        System.out.print("|" + unidade + "| ");
+                        System.out.print("|" + unidade + "|");
                     } else if (marcacao != null) {
-                        System.out.print("|" + marcacao + "| ");
+                        System.out.print("|" + marcacao + "|");
                     } else {
-                        System.out.print("|   | ");
+                        System.out.print("|   |");
                     }
                     posicao++;
                 } else {
