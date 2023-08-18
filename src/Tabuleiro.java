@@ -60,6 +60,7 @@ public class Tabuleiro {
     }
 
     public static boolean verificaCor(Posicao posicaoAtacada, Jogador jogador){
+        System.out.println(posicaoAtacada);
         for(Posicao posicao : posicoes){
             if (posicao.equals(posicaoAtacada)){
                 if (posicao!=null){
@@ -68,11 +69,6 @@ public class Tabuleiro {
                     }
                 }
             }
-//            if (posicaoAtacada.getNumero() == posicao.getNumero()){
-//                if ((posicaoAtacada!=null) && posicaoAtacada.getUnidade().getCor().equals(jogador.getCor())){
-//
-//                }
-//            }
         }
         return false;
     }
