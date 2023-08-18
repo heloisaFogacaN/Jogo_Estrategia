@@ -3,10 +3,10 @@ import java.util.Scanner;
 public class Main {
     private static Scanner scanner = new Scanner(System.in);
     static boolean jogoAcabou = false;
-    static Tabuleiro tabuleiro = new Tabuleiro();
     static int escolhaAtaque = 0;
 
     public static void main(String[] args) {
+        Jogador.adicionarJogador();
         System.out.println("BEM-VINDO!");
         int menu = 0;
         do {
@@ -16,7 +16,7 @@ public class Main {
 
     private static int menu() {
         System.out.println("""
-                 
+                                
                 Selecione a opção que deseja:
                                 
                 1- Cadastrar jogador
@@ -31,11 +31,22 @@ public class Main {
                 cadastar();
                 break;
             case 2:
-                System.out.println("Jogador 1");
-                Jogador j1 = login();
-                System.out.println("Jogador 2");
-                Jogador j2 = login();
-                iniciarPartida(j1, j2);
+                boolean comecar = false;
+                Jogador j1 = null;
+                Jogador j2 = null;
+                do {
+                    System.out.println("Jogador 1");
+                    j1 = login();
+                    System.out.println("Jogador 2");
+                    j2 = login();
+                    if (j1.getNome().equals(j2.getNome()) && j1.getSenha().equals(j2.getSenha())) {
+                        System.out.println("Para o jogo ocorrer deve haver dois jogadores diferentes");
+                    } else {
+                        comecar = true;
+                    }
+                } while (!comecar);
+                Tabuleiro tabuleiro = new Tabuleiro();
+                iniciarPartida(tabuleiro,j1, j2);
                 break;
             case 3:
                 listarJogadores();
@@ -56,7 +67,18 @@ public class Main {
         novoJogador.setNome(scanner.next());
         System.out.println("Informe sua senha:");
         novoJogador.setSenha(scanner.next());
-        Jogador.jogadores.add(novoJogador);
+        boolean jogadorJaCadastrado = false;
+
+        for (Jogador jogador : Jogador.jogadores) {
+            if (novoJogador.getNome().equals(jogador.getNome()) && novoJogador.getSenha().equals(jogador.getSenha())) {
+                System.out.println("Esse jogador já está cadastrado!");
+                jogadorJaCadastrado = true;
+                break;
+            }
+        }
+        if (!jogadorJaCadastrado) {
+            Jogador.jogadores.add(novoJogador);
+        }
     }
 
     private static Jogador login() {
@@ -75,13 +97,13 @@ public class Main {
         return jogador;
     }
 
-    private static void iniciarPartida(Jogador j1, Jogador j2) {
+    private static void iniciarPartida(Tabuleiro tabuleiro, Jogador j1, Jogador j2) {
         j1.setCor("Branco");
         j2.setCor("Preto");
         int turno = 1;
         do {
-            mostrarTabuleiro();
-            pedirBatalha(j1, j2, turno);
+            mostrarTabuleiro(tabuleiro);
+            pedirBatalha(tabuleiro, j1, j2, turno);
             turno = (turno == 1) ? 2 : 1;
             jogoAcabou = verificarPontuacao(j1, j2);
         } while (!jogoAcabou);
@@ -95,8 +117,12 @@ public class Main {
         }
     }
 
-    private static void pedirBatalha(Jogador j1, Jogador j2, int turno) {
+    private static void pedirBatalha(Tabuleiro tabuleiro, Jogador j1, Jogador j2, int turno) {
         boolean continuar = false;
+
+        System.out.println("Pontuação jogadores:\n"
+                + j1.getNome() + ": " + j1.getPontos() + "\n"
+                + j2.getNome() + ": " + j2.getPontos());
         do {
             if (turno == 1) {
                 System.out.println("\nJogador " + j1.getNome());
@@ -112,28 +138,34 @@ public class Main {
                 }
             }
 
-            if (turno == 1) {
-                if ((Tabuleiro.verificaCor(posicaoQueMove, j1))) {
-                    System.out.println("Escolha uma Torre que pertença ao adversário");
+            Unidade unidadeAtacada = posicaoQueMove.getUnidade();
+            if (unidadeAtacada != null) {
+                if (turno == 1) {
+                    if ((Tabuleiro.verificaCor(posicaoQueMove, j1))) {
+                        System.out.println("Escolha uma Torre que pertença ao adversário");
+                    } else {
+                        continuar = true;
+                    }
                 } else {
-                    continuar = true;
+                    if ((Tabuleiro.verificaCor(posicaoQueMove, j2))) {
+                        System.out.println("Escolha uma Torre que pertença ao adversário");
+                    } else {
+                        continuar = true;
+                    }
+                }
+                if (continuar) {
+                    System.out.println("Jogador " + j1.getNome());
+                    j1.setMago(escolherMago());
+                    System.out.println("Jogador " + j2.getNome());
+                    j2.setMago(escolherMago());
+                    batalhar(tabuleiro, j1.getMago(), j2.getMago(), posicaoQueMove, j1, j2, turno);
+                    break;
+
                 }
             } else {
-                if ((Tabuleiro.verificaCor(posicaoQueMove, j2))) {
-                    System.out.println("Escolha uma Torre que pertença ao adversário");
-                } else {
-                    continuar = true;
-                }
+                System.out.println("Escolha uma posição que contenha uma torre!");
             }
-            if (continuar) {
-                System.out.println("Jogador " + j1.getNome());
-                j1.setMago(escolherMago());
-                System.out.println("Jogador " + j2.getNome());
-                j2.setMago(escolherMago());
-                batalhar(tabuleiro, j1.getMago(), j2.getMago(), posicaoQueMove, j1, j2, turno);
-                break;
 
-            }
         } while (!continuar);
     }
 
@@ -170,7 +202,7 @@ public class Main {
         return tipoMago;
     }
 
-    public static void batalhar(Tabuleiro tabuleiro, Magos magoJogador, Magos magoAdversario, Posicao posicaoAtacada, Jogador j1, Jogador j2, int turno) {
+    public static void batalhar(Tabuleiro tabuleiro,Magos magoJogador, Magos magoAdversario, Posicao posicaoAtacada, Jogador j1, Jogador j2, int turno) {
         boolean rodadaAcabou = false;
 
         do {
@@ -200,6 +232,9 @@ public class Main {
                     case 3:
                         Magos.atacar(magoAdversario, magoJogador.poder3());
                         break;
+                    default:
+                        System.out.println("Opção inválida!");
+                        Magos.atacar(magoAdversario, 0);
                 }
                 System.out.println("Vida do Mago do jogador " + j2.getNome() + " após o ataque: " + magoAdversario.getVida());
             } else {
@@ -226,6 +261,7 @@ public class Main {
                     } else {
                         System.out.println("Jogador " + j1.getNome() + " venceu a batalha!");
                         j1.vencerBatalha(tabuleiro, posicaoAtacada);
+                        j1.setPontos(j1.getPontos() + 1);
                     }
                     rodadaAcabou = true; // Define que a rodada acabou
                 } else if (magoJogador.getVida() <= 0) {
@@ -234,6 +270,7 @@ public class Main {
                     } else {
                         System.out.println("Jogador " + j2.getNome() + " venceu a batalha!");
                         j2.vencerBatalha(tabuleiro, posicaoAtacada);
+                        j2.setPontos(j2.getPontos() + 1);
                     }
                     rodadaAcabou = true; // Define que a rodada acabou
                 }
@@ -246,9 +283,7 @@ public class Main {
 
     private static int escolherAtaque(Magos magoJogador) {
         int opcao;
-        System.out.println("""
-                1- Ataque
-                """);
+        System.out.println("1- Ataque");
         if (magoJogador instanceof MagoGandalf) {
             System.out.printf("""
                     2- Poder de Fogo
@@ -289,7 +324,7 @@ public class Main {
         return jogoAcabou;
     }
 
-    public static void mostrarTabuleiro() {
+    public static void mostrarTabuleiro(Tabuleiro tabuleiro) {
         int posicao = 0;
 
         for (int i = 0; i < 7; i++) {
