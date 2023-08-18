@@ -12,7 +12,6 @@ public class Main {
         do {
             menu();
         } while (!(menu == 4));
-
     }
 
     private static int menu() {
@@ -58,7 +57,6 @@ public class Main {
         System.out.println("Informe sua senha:");
         novoJogador.setSenha(scanner.next());
         Jogador.jogadores.add(novoJogador);
-
     }
 
     private static Jogador login() {
@@ -78,8 +76,8 @@ public class Main {
     }
 
     private static void iniciarPartida(Jogador j1, Jogador j2) {
-        j1.setCor("branco");
-        j2.setCor("preta");
+        j1.setCor("Branco");
+        j2.setCor("Preto");
         int turno = 1;
         do {
             mostrarTabuleiro();
@@ -101,23 +99,44 @@ public class Main {
     private static void pedirBatalha(Jogador j1, Jogador j2, int turno) {
         boolean torreEncontrada = false;
         do {
+            if (turno == 1) {
+                System.out.println("\nJogador " + j1.getNome());
+            } else if (turno == 2) {
+                System.out.println("\nJogador " + j2.getNome());
+            }
             System.out.println("\nInforme a posição da torre que deseja conquistar:");
-            Posicao escolhaPosicao = new Posicao(scanner.nextInt() - 1);
-
-            for (Posicao posicao : tabuleiro.posicoes) {
-                if (posicao.getNumero() == escolhaPosicao.getNumero() && Tabuleiro.verificarTorreNaPosicao(escolhaPosicao)) {
-                    torreEncontrada = true;
-                    System.out.println("Jogador " + j1.getNome());
-                    j1.setMago(escolherMago());
-                    System.out.println("Jogador " + j2.getNome());
-                    j2.setMago(escolherMago());
-                    batalhar(tabuleiro, j1.getMago(), j2.getMago(), escolhaPosicao, j1, j2, turno);
-                    break;
+            int escolhaPosicao = scanner.nextInt() - 1;
+            Posicao posicaoQueMove = null;
+            for (Posicao posicao: tabuleiro.getPosicoes()){
+                if (posicao.getNumero() == escolhaPosicao){
+                    posicaoQueMove = posicao;
                 }
             }
-            if (!torreEncontrada) {
-                System.out.println("Não há uma torre na posição informada. Escolha outra posição!");
+
+            boolean continuar=false;
+            if(turno==1){
+                if ((Tabuleiro.verificaCor(posicaoQueMove, j1))){
+                    System.out.println("Escolha uma Torre que pertença ao adversário");
+                } else {
+                    continuar=true;
+                }
+            } else {
+                if ((Tabuleiro.verificaCor(posicaoQueMove, j2))){
+                    System.out.println("Escolha uma Torre que pertença ao adversário");
+                } else{
+                    continuar=true;
+                }
             }
+                if(continuar){
+
+                            System.out.println("Jogador " + j1.getNome());
+                            j1.setMago(escolherMago());
+                            System.out.println("Jogador " + j2.getNome());
+                            j2.setMago(escolherMago());
+                            batalhar(tabuleiro, j1.getMago(), j2.getMago(), posicaoQueMove, j1, j2, turno);
+                            break;
+
+                }
         } while (!torreEncontrada);
     }
 
@@ -157,75 +176,75 @@ public class Main {
     public static void batalhar(Tabuleiro tabuleiro, Magos magoJogador, Magos magoAdversario, Posicao posicaoAtacada, Jogador j1, Jogador j2, int turno) {
         boolean rodadaAcabou = false;
 
-        do {
-            boolean trocarJogador = false;
-            if (turno == 1) {
-                System.out.println("\nJogador " + j1.getNome() + ", você deseja fazer qual jogada: ");
-            } else if (turno == 2) {
-                System.out.println("\nJogador " + j2.getNome() + ", você deseja fazer qual jogada: ");
-            }
-
-
-            int opcao=0;
-
-            if (turno == 1) {
-                 opcao = escolherAtaque(magoJogador);
-            } else {
-                 opcao = escolherAtaque(magoAdversario);
-            }
-
-            if (turno == 1) {
-                switch (escolhaAtaque){
-                    case 1:
-                        Magos.atacar(magoAdversario, magoJogador.getAtaque());
-                        break;
-                    case 2:
-                        Magos.atacar(magoAdversario, magoJogador.poder2());
-                        break;
-                    case 3:
-                        Magos.atacar(magoAdversario, magoJogador.poder3());
-                        break;
-                }
-                System.out.println("Vida do Mago do jogador " + j2.getNome() + " após o ataque: " + magoAdversario.getVida());
-            } else {
-                switch (escolhaAtaque){
-                    case 1:
-                        Magos.atacar(magoAdversario, magoJogador.getAtaque());
-                        break;
-                    case 2:
-                        Magos.atacar(magoAdversario, magoJogador.poder2());
-                        break;
-                    case 3:
-                        Magos.atacar(magoAdversario, magoJogador.poder3());
-                        break;
-                }
-                System.out.println("Vida do Mago do jogador " + j1.getNome() + " após o ataque: " + magoJogador.getVida());
-            }
-            trocarJogador = true;
-
-            if (Tabuleiro.verificarTorreNaPosicao(posicaoAtacada)) {
-                if (magoAdversario.getVida() <= 0) {
-                    if (Tabuleiro.verificaCor(posicaoAtacada, j1)) {
-                        System.out.println("O dono da torre venceu a batalha!");
-                    } else {
-                        System.out.println("Jogador " + j1.getNome() + " venceu a batalha!");
-                        j1.vencerBatalha(tabuleiro, posicaoAtacada);
+                do {
+                    boolean trocarJogador = false;
+                    if (turno == 1) {
+                        System.out.println("\nJogador " + j1.getNome() + ", você deseja fazer qual jogada: ");
+                    } else if (turno == 2) {
+                        System.out.println("\nJogador " + j2.getNome() + ", você deseja fazer qual jogada: ");
                     }
-                    rodadaAcabou = true; // Define que a rodada acabou
-                } else if (magoJogador.getVida() <= 0) {
-                    if ((Tabuleiro.verificaCor(posicaoAtacada, j2))) {
-                        System.out.println("O dono da torre venceu a batalha!");
+
+                    int escolha=0;
+
+                    if (turno == 1) {
+                        escolha = escolherAtaque(magoJogador);
                     } else {
-                        System.out.println("Jogador " + j2.getNome() + " venceu a batalha!");
-                        j2.vencerBatalha(tabuleiro, posicaoAtacada);
+                        escolha = escolherAtaque(magoAdversario);
                     }
-                    rodadaAcabou = true; // Define que a rodada acabou
-                }
-            }
-            if (trocarJogador) {
-                turno = (turno == 1) ? 2 : 1;
-            }
-        } while (!rodadaAcabou);
+
+                    if (turno == 1) {
+                        switch (escolhaAtaque){
+                            case 1:
+                                Magos.atacar(magoAdversario, magoJogador.getAtaque());
+                                break;
+                            case 2:
+                                Magos.atacar(magoAdversario, magoJogador.poder2());
+                                break;
+                            case 3:
+                                Magos.atacar(magoAdversario, magoJogador.poder3());
+                                break;
+                        }
+                        System.out.println("Vida do Mago do jogador " + j2.getNome() + " após o ataque: " + magoAdversario.getVida());
+                    } else {
+                        switch (escolhaAtaque){
+                            case 1:
+                                Magos.atacar(magoJogador, magoAdversario.getAtaque());
+                                break;
+                            case 2:
+                                Magos.atacar(magoJogador, magoAdversario.poder2());
+                                break;
+                            case 3:
+                                Magos.atacar(magoJogador, magoAdversario.poder3());
+                                break;
+                        }
+                        System.out.println("Vida do Mago do jogador " + j1.getNome() + " após o ataque: " + magoJogador.getVida());
+                    }
+                    trocarJogador = true;
+
+                    if (Tabuleiro.verificarTorreNaPosicao(posicaoAtacada)) {
+                        if (magoAdversario.getVida() <= 0) {
+                            Tabuleiro.verificaCor(posicaoAtacada, j1);
+                            if ((Tabuleiro.verificaCor(posicaoAtacada, j1))) {
+                                System.out.println("O dono da torre venceu a batalha!");
+                            } else {
+                                System.out.println("Jogador " + j1.getNome() + " venceu a batalha!");
+                                j1.vencerBatalha(tabuleiro, posicaoAtacada);
+                            }
+                            rodadaAcabou = true; // Define que a rodada acabou
+                        } else if (magoJogador.getVida() <= 0) {
+                            if ((Tabuleiro.verificaCor(posicaoAtacada, j2))) {
+                                System.out.println("O dono da torre venceu a batalha!");
+                            } else {
+                                System.out.println("Jogador " + j2.getNome() + " venceu a batalha!");
+                                j2.vencerBatalha(tabuleiro, posicaoAtacada);
+                            }
+                            rodadaAcabou = true; // Define que a rodada acabou
+                        }
+                    }
+                    if (trocarJogador) {
+                        turno = (turno == 1) ? 2 : 1;
+                    }
+                } while (!rodadaAcabou);
     }
 
     private static int escolherAtaque(Magos magoJogador) {
@@ -234,17 +253,17 @@ public class Main {
                 1- Ataque
                 """);
         if (magoJogador instanceof MagoGandalf) {
-            System.out.println("""
+            System.out.printf("""
                     2- Poder de Fogo
                     3- Poder Relâmpago
                     """);
         } else if (magoJogador instanceof MagoSaruman) {
-            System.out.println("""
+            System.out.printf("""
                     2- Poder de Gelo
                     3- Poder Mente
                     """);
         } else if (magoJogador instanceof MagoGaladriel) {
-            System.out.println("""
+            System.out.printf("""
                     2- Poder da Luz
                     3- Poder da Telepatia
                     """);

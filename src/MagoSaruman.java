@@ -8,11 +8,6 @@ public class MagoSaruman extends Magos {
         this.poderMente = 25;
     }
 
-    public void setAtaque(int ataque) {
-        super.setAtaque(15);
-    }
-
-
     @Override
     public int poder2() {
         return poderGelo;

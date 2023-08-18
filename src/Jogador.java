@@ -4,11 +4,9 @@ public class Jogador {
     static ArrayList<Jogador> jogadores = new ArrayList<>();
     private String nome;
     private String senha;
-    private int pontos;
+    private int pontos=0;
     private String cor;
     private Magos mago;
-
-
 
     public String getCor() {
         return cor;
@@ -58,7 +56,7 @@ public class Jogador {
 
     @Override
     public String toString() {
-        return "Nome=" + nome + "\n" +
-                "Senha=" + senha;
+        return "\nNome:" + nome + "\n" +
+                "Senha:" + senha;
     }
 }
