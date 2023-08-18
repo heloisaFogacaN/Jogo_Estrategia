@@ -97,7 +97,7 @@ public class Main {
     }
 
     private static void pedirBatalha(Jogador j1, Jogador j2, int turno) {
-        boolean torreEncontrada = false;
+        boolean continuar=false;
         do {
             if (turno == 1) {
                 System.out.println("\nJogador " + j1.getNome());
@@ -113,7 +113,6 @@ public class Main {
                 }
             }
 
-            boolean continuar=false;
             if(turno==1){
                 if ((Tabuleiro.verificaCor(posicaoQueMove, j1))){
                     System.out.println("Escolha uma Torre que pertença ao adversário");
@@ -137,7 +136,7 @@ public class Main {
                             break;
 
                 }
-        } while (!torreEncontrada);
+        } while (!continuar);
     }
 
     private static Magos escolherMago() {
