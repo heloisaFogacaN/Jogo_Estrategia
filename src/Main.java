@@ -3,7 +3,7 @@ import java.util.Scanner;
 public class Main {
     private static Scanner scanner = new Scanner(System.in);
     static boolean jogoAcabou = false;
-    static int escolhaAtaque = 0;
+    static Tabuleiro tabuleiro = new Tabuleiro();
 
     public static void main(String[] args) {
         Jogador.adicionarJogador();
@@ -45,8 +45,7 @@ public class Main {
                         comecar = true;
                     }
                 } while (!comecar);
-                Tabuleiro tabuleiro = new Tabuleiro();
-                iniciarPartida(tabuleiro,j1, j2);
+                iniciarPartida(j1, j2);
                 break;
             case 3:
                 listarJogadores();
@@ -97,13 +96,13 @@ public class Main {
         return jogador;
     }
 
-    private static void iniciarPartida(Tabuleiro tabuleiro, Jogador j1, Jogador j2) {
+    private static void iniciarPartida(Jogador j1, Jogador j2) {
         j1.setCor("Branco");
         j2.setCor("Preto");
         int turno = 1;
         do {
-            mostrarTabuleiro(tabuleiro);
-            pedirBatalha(tabuleiro, j1, j2, turno);
+            mostrarTabuleiro();
+            pedirBatalha(j1, j2, turno);
             turno = (turno == 1) ? 2 : 1;
             jogoAcabou = verificarPontuacao(j1, j2);
         } while (!jogoAcabou);
@@ -117,7 +116,7 @@ public class Main {
         }
     }
 
-    private static void pedirBatalha(Tabuleiro tabuleiro, Jogador j1, Jogador j2, int turno) {
+    private static void pedirBatalha(Jogador j1, Jogador j2, int turno) {
         boolean continuar = false;
 
         System.out.println("Pontuação jogadores:\n"
@@ -158,14 +157,12 @@ public class Main {
                     j1.setMago(escolherMago());
                     System.out.println("Jogador " + j2.getNome());
                     j2.setMago(escolherMago());
-                    batalhar(tabuleiro, j1.getMago(), j2.getMago(), posicaoQueMove, j1, j2, turno);
+                    batalhar(j1.getMago(), j2.getMago(), posicaoQueMove, j1, j2, turno);
                     break;
-
                 }
             } else {
                 System.out.println("Escolha uma posição que contenha uma torre!");
             }
-
         } while (!continuar);
     }
 
@@ -202,76 +199,28 @@ public class Main {
         return tipoMago;
     }
 
-    public static void batalhar(Tabuleiro tabuleiro,Magos magoJogador, Magos magoAdversario, Posicao posicaoAtacada, Jogador j1, Jogador j2, int turno) {
+    private static void batalhar(Magos magoJogador, Magos magoAdversario, Posicao posicaoAtacada, Jogador j1, Jogador j2, int turno) {
         boolean rodadaAcabou = false;
 
         do {
             boolean trocarJogador = false;
             if (turno == 1) {
                 System.out.println("\nJogador " + j1.getNome() + ", você deseja fazer qual jogada: ");
+                Magos.atacar(magoAdversario, escolherAtaque(magoJogador));
+                System.out.println("Vida do Mago do jogador " + j2.getNome() + " após o ataque: " + magoAdversario.getVida());
             } else if (turno == 2) {
                 System.out.println("\nJogador " + j2.getNome() + ", você deseja fazer qual jogada: ");
-            }
-
-            int escolha = 0;
-
-            if (turno == 1) {
-                escolha = escolherAtaque(magoJogador);
-            } else {
-                escolha = escolherAtaque(magoAdversario);
-            }
-
-            if (turno == 1) {
-                switch (escolhaAtaque) {
-                    case 1:
-                        Magos.atacar(magoAdversario, magoJogador.getAtaque());
-                        break;
-                    case 2:
-                        Magos.atacar(magoAdversario, magoJogador.poder2());
-                        break;
-                    case 3:
-                        Magos.atacar(magoAdversario, magoJogador.poder3());
-                        break;
-                    default:
-                        System.out.println("Opção inválida!");
-                        Magos.atacar(magoAdversario, 0);
-                }
-                System.out.println("Vida do Mago do jogador " + j2.getNome() + " após o ataque: " + magoAdversario.getVida());
-            } else {
-                switch (escolhaAtaque) {
-                    case 1:
-                        Magos.atacar(magoJogador, magoAdversario.getAtaque());
-                        break;
-                    case 2:
-                        Magos.atacar(magoJogador, magoAdversario.poder2());
-                        break;
-                    case 3:
-                        Magos.atacar(magoJogador, magoAdversario.poder3());
-                        break;
-                }
+                Magos.atacar(magoJogador, escolherAtaque(magoAdversario));
                 System.out.println("Vida do Mago do jogador " + j1.getNome() + " após o ataque: " + magoJogador.getVida());
             }
             trocarJogador = true;
 
             if (Tabuleiro.verificarTorreNaPosicao(posicaoAtacada)) {
                 if (magoAdversario.getVida() <= 0) {
-                    Tabuleiro.verificaCor(posicaoAtacada, j1);
-                    if ((Tabuleiro.verificaCor(posicaoAtacada, j1))) {
-                        System.out.println("O dono da torre venceu a batalha!");
-                    } else {
-                        System.out.println("Jogador " + j1.getNome() + " venceu a batalha!");
-                        j1.vencerBatalha(tabuleiro, posicaoAtacada);
-                        j1.setPontos(j1.getPontos() + 1);
-                    }
+                    verificaVitoriaRodada(posicaoAtacada, j1);
                     rodadaAcabou = true; // Define que a rodada acabou
                 } else if (magoJogador.getVida() <= 0) {
-                    if ((Tabuleiro.verificaCor(posicaoAtacada, j2))) {
-                        System.out.println("O dono da torre venceu a batalha!");
-                    } else {
-                        System.out.println("Jogador " + j2.getNome() + " venceu a batalha!");
-                        j2.vencerBatalha(tabuleiro, posicaoAtacada);
-                        j2.setPontos(j2.getPontos() + 1);
-                    }
+                    verificaVitoriaRodada(posicaoAtacada, j2);
                     rodadaAcabou = true; // Define que a rodada acabou
                 }
             }
@@ -301,7 +250,6 @@ public class Main {
                     """);
         }
         opcao = scanner.nextInt();
-        escolhaAtaque = opcao;
 
         if (opcao == 2) {
             return magoJogador.poder2();
@@ -309,6 +257,17 @@ public class Main {
             return magoJogador.poder3();
         }
         return magoJogador.getAtaque();
+    }
+
+    private static void verificaVitoriaRodada(Posicao posicaoAtacada, Jogador jogador) {
+        Tabuleiro.verificaCor(posicaoAtacada, jogador);
+        if ((Tabuleiro.verificaCor(posicaoAtacada, jogador))) {
+            System.out.println("O dono da torre venceu a batalha!");
+        } else {
+            System.out.println("Jogador " + jogador.getNome() + " venceu a batalha!");
+            jogador.vencerBatalha(tabuleiro, posicaoAtacada);
+            jogador.setPontos(jogador.getPontos() + 1);
+        }
     }
 
     private static boolean verificarPontuacao(Jogador j1, Jogador j2) {
@@ -324,7 +283,7 @@ public class Main {
         return jogoAcabou;
     }
 
-    public static void mostrarTabuleiro(Tabuleiro tabuleiro) {
+    public static void mostrarTabuleiro() {
         int posicao = 0;
 
         for (int i = 0; i < 7; i++) {

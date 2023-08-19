@@ -8,15 +8,9 @@ public class Torre extends Unidade{
         this.cor=cor;
     }
 
-    public void setCor(String cor) {
-        this.cor = cor;
-    }
-
     public String getCor() {
         return cor;
     }
-
-
 
     @Override
     public String toString() {

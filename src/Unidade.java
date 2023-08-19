@@ -5,7 +5,6 @@ public abstract class Unidade {
     private int vida, ataque, defesa;
     private String cor;
 
-
     public Unidade(int vida, int ataque, int defesa, String cor) {
         this.ataque = ataque;
         this.vida = vida;
