@@ -1,17 +1,18 @@
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
     private static Scanner scanner = new Scanner(System.in);
     static boolean jogoAcabou = false;
-    static Tabuleiro tabuleiro = new Tabuleiro();
-
+//    static Tabuleiro tabuleiro = new Tabuleiro();
+    static Partida partida;
     public static void main(String[] args) {
-        Jogador.adicionarJogador();
+
         System.out.println("BEM-VINDO!");
         int menu = 0;
         do {
-            menu();
-        } while (!(menu == 4));
+            menu = menu();
+        } while (menu!= 4);
     }
 
     private static int menu() {
@@ -31,21 +32,7 @@ public class Main {
                 cadastar();
                 break;
             case 2:
-                boolean comecar = false;
-                Jogador j1 = null;
-                Jogador j2 = null;
-                do {
-                    System.out.println("Jogador 1");
-                    j1 = login();
-                    System.out.println("Jogador 2");
-                    j2 = login();
-                    if (j1.getNome().equals(j2.getNome()) && j1.getSenha().equals(j2.getSenha())) {
-                        System.out.println("Para o jogo ocorrer deve haver dois jogadores diferentes");
-                    } else {
-                        comecar = true;
-                    }
-                } while (!comecar);
-                iniciarPartida(j1, j2);
+                iniciarPartida();
                 break;
             case 3:
                 listarJogadores();
@@ -59,6 +46,23 @@ public class Main {
         return opcao;
     }
 
+    private static void loginJogadores(){
+        boolean comecar = false;
+        Jogador j1;
+        Jogador j2;
+        do {
+            System.out.println("Jogador 1");
+            j1 = login();
+            System.out.println("Jogador 2");
+            j2 = login();
+            if (j1.equals(j2)) {
+                System.out.println("Para o jogo ocorrer deve haver dois jogadores diferentes");
+            } else {
+                comecar = true;
+            }
+        } while (!comecar);
+    }
+
     private static void cadastar() {
         Jogador novoJogador = new Jogador();
 
@@ -68,7 +72,7 @@ public class Main {
         novoJogador.setSenha(scanner.next());
         boolean jogadorJaCadastrado = false;
 
-        for (Jogador jogador : Jogador.jogadores) {
+        for (Jogador jogador : Jogador.getJogadores()) {
             if (novoJogador.getNome().equals(jogador.getNome()) && novoJogador.getSenha().equals(jogador.getSenha())) {
                 System.out.println("Esse jogador já está cadastrado!");
                 jogadorJaCadastrado = true;
@@ -76,7 +80,7 @@ public class Main {
             }
         }
         if (!jogadorJaCadastrado) {
-            Jogador.jogadores.add(novoJogador);
+            Jogador.adicionarJogador(novoJogador);
         }
     }
 
@@ -92,20 +96,8 @@ public class Main {
                 System.out.println("Conta inválida!!");
             }
         } while (jogador == null);
-
+        partida.addJogador(jogador);
         return jogador;
-    }
-
-    private static void iniciarPartida(Jogador j1, Jogador j2) {
-        j1.setCor("Branco");
-        j2.setCor("Preto");
-        int turno = 1;
-        do {
-            mostrarTabuleiro();
-            pedirBatalha(j1, j2, turno);
-            turno = (turno == 1) ? 2 : 1;
-            jogoAcabou = verificarPontuacao(j1, j2);
-        } while (!jogoAcabou);
     }
 
     private static void listarJogadores() {
@@ -116,40 +108,48 @@ public class Main {
         }
     }
 
-    private static void pedirBatalha(Jogador j1, Jogador j2, int turno) {
-        boolean continuar = false;
+    private static void iniciarPartida() {
+        partida=new Partida();
+        loginJogadores();
+        do {
+            System.out.println(partida.getTabuleiro());
+            pedirBatalha();
+            jogoAcabou = verificarPontuacao(j1, j2);
+        } while (!jogoAcabou);
+    }
 
+    private static Posicao escolherPosicao(){
+        Posicao posicao = null;
+        do{
+            System.out.println("\nInforme a posição da torre que deseja conquistar:");
+            int escolhaPosicao = scanner.nextInt() - 1;
+            ArrayList<Posicao> posicoes=partida.getTabuleiro().getPosicoes();
+            if(escolhaPosicao>=0 && escolhaPosicao<posicoes.size()){
+                posicao=posicoes.get(escolhaPosicao);
+            }
+        }while(posicao ==null);
+        return posicao;
+    }
+
+    private static void pedirBatalha() {
+        boolean continuar = false;
+        Jogador j1=partida.getJogadores().get(0), j2=partida.getJogadores().get(1);
         System.out.println("Pontuação jogadores:\n"
                 + j1.getNome() + ": " + j1.getPontos() + "\n"
                 + j2.getNome() + ": " + j2.getPontos());
         do {
-            if (turno == 1) {
-                System.out.println("\nJogador " + j1.getNome());
-            } else if (turno == 2) {
-                System.out.println("\nJogador " + j2.getNome());
-            }
-            System.out.println("\nInforme a posição da torre que deseja conquistar:");
-            int escolhaPosicao = scanner.nextInt() - 1;
-            Posicao posicaoQueMove = null;
-            for (Posicao posicao : tabuleiro.getPosicoes()) {
-                if (posicao.getNumero() == escolhaPosicao) {
-                    posicaoQueMove = posicao;
-                }
-            }
+
+                System.out.println("\nJogador " + partida.jogadorDaVez());
+            Posicao posicaoQueMove= escolherPosicao();
+
 
             Unidade unidadeAtacada = posicaoQueMove.getUnidade();
             if (unidadeAtacada != null) {
-                if (turno == 1) {
-                    if ((Tabuleiro.verificaCor(posicaoQueMove, j1))) {
-                        System.out.println("Escolha uma Torre que pertença ao adversário");
+
+                    if (partida.verificaCor(unidadeAtacada)) {
+                    continuar = true;
                     } else {
-                        continuar = true;
-                    }
-                } else {
-                    if ((Tabuleiro.verificaCor(posicaoQueMove, j2))) {
-                        System.out.println("Escolha uma Torre que pertença ao adversário");
-                    } else {
-                        continuar = true;
+                    System.out.println("Escolha uma Torre que pertença ao adversário");
                     }
                 }
                 if (continuar) {
@@ -166,9 +166,9 @@ public class Main {
         } while (!continuar);
     }
 
-    private static Magos escolherMago() {
+    private static Mago escolherMago() {
         boolean opcaoValida = false;
-        Magos tipoMago = null;
+        Mago tipoMago = null;
         do {
             System.out.println("""
                     Você deseja utilizar qual mago?
@@ -199,18 +199,18 @@ public class Main {
         return tipoMago;
     }
 
-    private static void batalhar(Magos magoJogador, Magos magoAdversario, Posicao posicaoAtacada, Jogador j1, Jogador j2, int turno) {
+    private static void batalhar(Mago magoJogador, Mago magoAdversario, Posicao posicaoAtacada, Jogador j1, Jogador j2, int turno) {
         boolean rodadaAcabou = false;
 
         do {
             boolean trocarJogador = false;
             if (turno == 1) {
                 System.out.println("\nJogador " + j1.getNome() + ", você deseja fazer qual jogada: ");
-                Magos.atacar(magoAdversario, escolherAtaque(magoJogador));
+                magoJogador.atacar(magoAdversario, escolherAtaque(magoJogador));
                 System.out.println("Vida do Mago do jogador " + j2.getNome() + " após o ataque: " + magoAdversario.getVida());
             } else if (turno == 2) {
                 System.out.println("\nJogador " + j2.getNome() + ", você deseja fazer qual jogada: ");
-                Magos.atacar(magoJogador, escolherAtaque(magoAdversario));
+                magoAdversario.atacar(magoJogador, escolherAtaque(magoAdversario));
                 System.out.println("Vida do Mago do jogador " + j1.getNome() + " após o ataque: " + magoJogador.getVida());
             }
             trocarJogador = true;
@@ -230,25 +230,10 @@ public class Main {
         } while (!rodadaAcabou);
     }
 
-    private static int escolherAtaque(Magos magoJogador) {
+    private static int escolherAtaque(Mago magoJogador) {
         int opcao;
-        System.out.println("1- Ataque");
-        if (magoJogador instanceof MagoGandalf) {
-            System.out.printf("""
-                    2- Poder de Fogo
-                    3- Poder Relâmpago
-                    """);
-        } else if (magoJogador instanceof MagoSaruman) {
-            System.out.printf("""
-                    2- Poder de Gelo
-                    3- Poder Mente
-                    """);
-        } else if (magoJogador instanceof MagoGaladriel) {
-            System.out.printf("""
-                    2- Poder da Luz
-                    3- Poder da Telepatia
-                    """);
-        }
+        System.out.println("1- Ataque\n" + magoJogador.poderes());
+
         opcao = scanner.nextInt();
 
         if (opcao == 2) {
@@ -281,31 +266,5 @@ public class Main {
             jogoAcabou = true;
         }
         return jogoAcabou;
-    }
-
-    public static void mostrarTabuleiro() {
-        int posicao = 0;
-
-        for (int i = 0; i < 7; i++) {
-            for (int j = 0; j < 9; j++) {
-                if (posicao < tabuleiro.getPosicoes().size()) {
-                    Posicao posicaoAtual = tabuleiro.getPosicoes().get(posicao);
-                    Unidade unidade = posicaoAtual.getUnidade();
-                    String marcacao = posicaoAtual.getMarcacao();
-
-                    if (unidade != null) {
-                        System.out.print("|" + unidade + "|");
-                    } else if (marcacao != null) {
-                        System.out.print("|" + marcacao + "|");
-                    } else {
-                        System.out.print("|   |");
-                    }
-                    posicao++;
-                } else {
-                    System.out.print("   ");
-                }
-            }
-            System.out.println();
-        }
     }
 }

@@ -1,4 +1,4 @@
-public class MagoGandalf extends Magos {
+public class MagoGandalf extends Mago {
     private int poderFogo;
     private int poderRelampago;
 
@@ -6,6 +6,12 @@ public class MagoGandalf extends Magos {
         super(150, 18);
         this.poderFogo = 25;
         this.poderRelampago = 30;
+    }
+
+    @Override
+    public String poderes() {
+        return "2- Poder de Fogo\n" +
+                "3- Poder Relâmpago";
     }
 
     @Override

@@ -1,12 +1,12 @@
 import java.util.ArrayList;
 
 public class Jogador {
-    static ArrayList<Jogador> jogadores = new ArrayList<>();
+    private static ArrayList<Jogador> jogadores = new ArrayList<>();
     private String nome;
     private String senha;
     private int pontos = 0;
     private String cor;
-    private Magos mago;
+    private Mago mago;
 
     public String getCor() {
         return cor;
@@ -20,11 +20,11 @@ public class Jogador {
         return pontos;
     }
 
-    public void setMago(Magos mago) {
+    public void setMago(Mago mago) {
         this.mago = mago;
     }
 
-    public Magos getMago() {
+    public Mago getMago() {
         return mago;
     }
 
@@ -46,8 +46,8 @@ public class Jogador {
         this.pontos = pontos;
     }
 
-    public void vencerBatalha(Tabuleiro tabuleiroJogo, Posicao posicaoAtacada) {
-        tabuleiroJogo.marcarPosicao(posicaoAtacada, " X ");
+    public void vencerBatalha(Tabuleiro tabuleiro, Posicao posicaoAtacada) {
+        tabuleiro.marcarPosicao(posicaoAtacada, " X ");
     }
 
     public static Jogador buscarJogadores(String senha, String nome) {
@@ -58,12 +58,12 @@ public class Jogador {
         }
         return null;
     }
-    public static void adicionarJogador() {
-        Jogador primeiro = new Jogador();
-        primeiro.setNome("Primeiro");
-        primeiro.setSenha("Primeiro");
+    public static void adicionarJogador(Jogador jogador) {
+        jogadores.add(jogador);
+    }
 
-        Jogador.jogadores.add(primeiro);
+    public static ArrayList<Jogador> getJogadores() {
+        return jogadores;
     }
 
     @Override

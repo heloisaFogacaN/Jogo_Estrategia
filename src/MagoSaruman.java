@@ -1,4 +1,4 @@
-public class MagoSaruman extends Magos {
+public class MagoSaruman extends Mago {
     private int poderGelo;
     private int poderMente;
 
@@ -9,7 +9,14 @@ public class MagoSaruman extends Magos {
     }
 
     @Override
+    public String poderes() {
+        return "2- Poder de Gelo\n" +
+                "3- Poder Mente";
+    }
+
+    @Override
     public int poder2() {
+
         return poderGelo;
     }
 
