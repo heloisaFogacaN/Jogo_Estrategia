@@ -3,7 +3,8 @@ public class MagoGaladriel extends Mago {
     private int poderTelepatia;
 
     public MagoGaladriel() {
-        super(130, 25);
+        super(130);
+        addPoder(new DanoPadrao(15));
         addPoder(new Luz());
         addPoder(new Telepatia());
     }

@@ -28,7 +28,9 @@ public class Jogador {
         return mago;
     }
 
-    public String getSenha() {return senha;}
+    public String getSenha() {
+        return senha;
+    }
 
     public void setSenha(String senha) {
         this.senha = senha;
@@ -46,8 +48,8 @@ public class Jogador {
         this.pontos = pontos;
     }
 
-    public void vencerBatalha(Tabuleiro tabuleiro, Posicao posicaoAtacada) {
-        tabuleiro.marcarPosicao(posicaoAtacada, " X ");
+    public void vencerBatalha(Unidade torre) {
+        Tabuleiro.marcarPosicao(torre.getPosicao());
     }
 
     public static Jogador buscarJogadores(String senha, String nome) {
@@ -58,6 +60,7 @@ public class Jogador {
         }
         return null;
     }
+
     public static void adicionarJogador(Jogador jogador) {
         jogadores.add(jogador);
     }
@@ -66,9 +69,13 @@ public class Jogador {
         return jogadores;
     }
 
+    public void atacar(Mago adversario) {
+        this.getMago().atacar(adversario);
+    }
+
     @Override
     public String toString() {
-        return "\nNome:" + nome + "\n" +
-                "Senha:" + senha;
+        return "\nNome:" + nome +
+                "\nSenha:" + senha;
     }
 }

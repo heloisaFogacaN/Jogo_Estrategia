@@ -1,19 +1,25 @@
 import java.util.ArrayList;
 
 public abstract class Mago {
-    private int vida, ataque;
+    private int vida;
     private boolean escudoAtivo;
     private ArrayList<Poder> poderes;
+    private Poder poderSelecionado;
+
+    public void setPoderSelecionado(int poderSelecionado) {
+        this.poderSelecionado = poderes.get(poderSelecionado);
+    }
 
 
-    public Mago(int vida, int ataque) {
+    public Mago(int vida) {
         this.vida=vida;
-        this.ataque=ataque;
     }
 
     public void addPoder(Poder poder){
         poderes.add(poder);
     }
+
+    public Poder getPoder(int opcao){return poderes.get(opcao);}
 
     public abstract String poderes();
 
@@ -25,14 +31,9 @@ public abstract class Mago {
             this.setVida(this.getVida() - poder.getDano());
     }
 
-    public void atacar(Mago adversario, int ataque) {
-        if (ataque == 2) {
-             this.poder2();
-        } else if (ataque == 3) {
-             this.poder3();
-        }
-        return magoJogador.getAtaque();
-        adversario.receberAtaque(poder);
+    public void atacar(Mago adversario) {
+
+        adversario.receberAtaque(poderSelecionado);
     }
 
     public void setVida(int vida) {
@@ -43,7 +44,4 @@ public abstract class Mago {
         return vida;
     }
 
-    public int getAtaque() {
-        return ataque;
-    }
 }

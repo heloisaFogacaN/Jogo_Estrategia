@@ -3,9 +3,10 @@ public class MagoSaruman extends Mago {
     private int poderMente;
 
     public MagoSaruman() {
-        super(140, 20);
-        this.poderGelo = 30;
-        this.poderMente = 25;
+        super(140);
+        addPoder(new DanoPadrao(20));
+        addPoder(new Gelo());
+        addPoder(new Gelo());
     }
 
     @Override
