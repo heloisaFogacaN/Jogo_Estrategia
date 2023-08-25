@@ -19,6 +19,14 @@ public abstract class Mago {
         poderes.add(poder);
     }
 
+    public ArrayList<Poder> getPoderes() {
+        return poderes;
+    }
+
+    public void setPoderes(ArrayList<Poder> poderes) {
+        this.poderes = poderes;
+    }
+
     public Poder getPoder(int opcao){return poderes.get(opcao);}
 
     public abstract String poderes();

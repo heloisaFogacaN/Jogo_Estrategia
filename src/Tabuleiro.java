@@ -3,7 +3,7 @@ import java.lang.module.FindException;
 import java.util.ArrayList;
 
 public class Tabuleiro {
-    public  ArrayList<Posicao> posicoes = new ArrayList<>();
+    public ArrayList<Posicao> posicoes = new ArrayList<>();
 
     Tabuleiro() {
         Posicao posicao;
@@ -12,28 +12,23 @@ public class Tabuleiro {
                 posicao = new Posicao(i);
                 posicao.setUnidade(new Torre(20, 0, 0, "Branco", posicao));
                 posicoes.add(posicao);
-            }
-             else if (i > 18 && i < 21) {
+            } else if (i > 18 && i < 21) {
                 posicao = new Posicao(i);
                 posicao.setUnidade(new Torre(20, 0, 0, "Branco", posicao));
                 posicoes.add(posicao);
-            }
-           else  if (i > 23 && i < 26) {
+            } else if (i > 23 && i < 26) {
                 posicao = new Posicao(i);
                 posicao.setUnidade(new Torre(20, 0, 0, "Branco", posicao));
                 posicoes.add(posicao);
-            }
-            else if (i > 36 && i < 39) {
+            } else if (i > 36 && i < 39) {
                 posicao = new Posicao(i);
                 posicao.setUnidade(new Torre(20, 0, 0, "Preto", posicao));
                 posicoes.add(posicao);
-            }
-           else  if (i > 41 && i < 44) {
+            } else if (i > 41 && i < 44) {
                 posicao = new Posicao(i);
                 posicao.setUnidade(new Torre(20, 0, 0, "Preto", posicao));
                 posicoes.add(posicao);
-            }
-          else  if (i > 56 && i < 60) {
+            } else if (i > 56 && i < 60) {
                 posicao = new Posicao(i);
                 posicao.setUnidade(new Torre(20, 0, 0, "Preto", posicao));
                 posicoes.add(posicao);
@@ -48,10 +43,10 @@ public class Tabuleiro {
         posicao.setMarcacao("X");
     }
 
-    public  boolean verificarTorreNaPosicao(Posicao posicaoEscolhida) {
-        for (Posicao posicao: posicoes) {
-            if (posicaoEscolhida.getNumero() == posicao.getNumero()){
-                if (posicao.getUnidade()!=null){
+    public boolean verificarTorreNaPosicao(Posicao posicaoEscolhida) {
+        for (Posicao posicao : posicoes) {
+            if (posicaoEscolhida.getNumero() == posicao.getNumero()) {
+                if (posicao.getUnidade() != null) {
                     return true;
                 }
             }
@@ -59,14 +54,13 @@ public class Tabuleiro {
         return false;
     }
 
-
     public ArrayList<Posicao> getPosicoes() {
         return posicoes;
     }
 
     @Override
     public String toString() {
-        String tabuleiro="";
+        String tabuleiro = "";
         int posicao = 0;
         for (int i = 0; i < 7; i++) {
             for (int j = 0; j < 9; j++) {
@@ -76,18 +70,18 @@ public class Tabuleiro {
                     String marcacao = posicaoAtual.getMarcacao();
 
                     if (unidade != null) {
-                        tabuleiro +="|" + unidade + "|\n";
+                        tabuleiro += "|" + unidade + "|";
                     } else if (marcacao != null) {
-                        tabuleiro+=("|" + marcacao + "|\n");
+                        tabuleiro += ("|" + marcacao + "|");
                     } else {
-                        tabuleiro+=("|   |\n");
+                        tabuleiro += ("|   |");
                     }
                     posicao++;
-                } else {
-                    tabuleiro+=("   \n");
                 }
             }
+            tabuleiro += ("  \n");
         }
+        posicao=0;
         return tabuleiro;
     }
 }

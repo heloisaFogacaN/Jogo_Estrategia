@@ -10,6 +10,7 @@ public class Partida {
         return jogadores;
     }
 
+
     public Partida(Jogador j1, Jogador j2) {
         this.tabuleiro = new Tabuleiro();
         this.jogadores.add(j1);

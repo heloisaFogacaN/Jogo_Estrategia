@@ -48,7 +48,6 @@ public class Main {
     }
 
     private static void loginJogadores() {
-        boolean comecar = false;
         Jogador j1;
         Jogador j2;
         do {
@@ -58,31 +57,22 @@ public class Main {
             j2 = login();
             if (j1.equals(j2)) {
                 System.out.println("Para o jogo ocorrer deve haver dois jogadores diferentes");
-            } else {
-                comecar = true;
             }
-        } while (!comecar);
+        } while (j1==j2);
         partida = new Partida(j1, j2);
     }
 
     private static void cadastar() {
-        Jogador novoJogador = new Jogador();
-
         System.out.println("Informe seu nome:");
-        novoJogador.setNome(scanner.next());
+        String nome=(scanner.next());
         System.out.println("Informe sua senha:");
-        novoJogador.setSenha(scanner.next());
-        boolean jogadorJaCadastrado = false;
+        String senha=(scanner.next());
 
-        for (Jogador jogador : Jogador.getJogadores()) {
-            if (novoJogador.getNome().equals(jogador.getNome()) && novoJogador.getSenha().equals(jogador.getSenha())) {
-                System.out.println("Esse jogador já está cadastrado!");
-                jogadorJaCadastrado = true;
-                break;
-            }
-        }
+        Jogador jogador=Jogador.buscarJogadores(senha, nome);
+        boolean jogadorJaCadastrado = jogador!=null;
+
         if (!jogadorJaCadastrado) {
-            Jogador.adicionarJogador(novoJogador);
+            new Jogador(nome, senha);
         }
     }
 
@@ -103,9 +93,13 @@ public class Main {
 
     private static void listarJogadores() {
         int i = 1;
-        for (Jogador jogador : partida.getJogadores()) {
-            System.out.println(i + "- " + jogador.toString() + "\n");
-            i++;
+        for (Jogador jogador : Jogador.getJogadores()) {
+            if(jogador==null){
+                System.out.println("Não há jogadores cadastrados!");
+            } else {
+                System.out.println(i + "- " + jogador.toString() + "\n");
+                i++;
+            }
         }
     }
 
@@ -181,8 +175,6 @@ public class Main {
     }
 
     private static void batalhar(Unidade torre) {
-        boolean rodadaAcabou = false;
-
         do {
             Jogador j1 = partida.jogadorTurno(), j2 = partida.adversarioTurno();
 
