@@ -1,20 +1,23 @@
-public class MagoSaruman extends Magos {
+public class MagoSaruman extends Mago {
     private int poderGelo;
     private int poderMente;
 
     public MagoSaruman() {
-        super(140, 20);
-        this.poderGelo = 30;
-        this.poderMente = 25;
+        super(140);
+        addPoder(new DanoPadrao(20));
+        addPoder(new Gelo());
+        addPoder(new Gelo());
     }
 
-    public void setAtaque(int ataque) {
-        super.setAtaque(15);
+    @Override
+    public String poderes() {
+        return "2- Poder de Gelo\n" +
+                "3- Poder Mente";
     }
-
 
     @Override
     public int poder2() {
+
         return poderGelo;
     }
 

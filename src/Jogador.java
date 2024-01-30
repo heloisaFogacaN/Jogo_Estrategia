@@ -1,14 +1,19 @@
 import java.util.ArrayList;
 
 public class Jogador {
-    static ArrayList<Jogador> jogadores = new ArrayList<>();
+    private static ArrayList<Jogador> jogadores = new ArrayList<>();
     private String nome;
     private String senha;
-    private int pontos;
+    private int pontos = 0;
     private String cor;
-    private Magos mago;
+    private Mago mago;
 
+    public Jogador(String nome, String senha){
+        this.nome=nome;
+        this.senha=senha;
 
+        jogadores.add(this);
+    }
 
     public String getCor() {
         return cor;
@@ -22,29 +27,28 @@ public class Jogador {
         return pontos;
     }
 
-    public void setMago(Magos mago) {
+    public void setMago(Mago mago) {
         this.mago = mago;
     }
 
-    public Magos getMago() {
+    public Mago getMago() {
         return mago;
     }
 
-    public void setSenha(String senha) {
-        this.senha = senha;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
+    public String getSenha() {
+        return senha;
     }
 
     public void setCor(String cor) {
         this.cor = cor;
     }
 
-    public void vencerBatalha(Tabuleiro tabuleiro, Posicao posicaoAtacada) {
-        tabuleiro.marcarPosicao(posicaoAtacada, " X ");
-        this.pontos++;
+    public void setPontos(int pontos) {
+        this.pontos = pontos;
+    }
+
+    public void vencerBatalha(Unidade torre) {
+        Tabuleiro.marcarPosicao(torre.getPosicao());
     }
 
     public static Jogador buscarJogadores(String senha, String nome) {
@@ -56,9 +60,18 @@ public class Jogador {
         return null;
     }
 
+
+    public static ArrayList<Jogador> getJogadores() {
+        return jogadores;
+    }
+
+    public void atacar(Mago adversario) {
+        this.getMago().atacar(adversario);
+    }
+
     @Override
     public String toString() {
-        return "Nome=" + nome + "\n" +
-                "Senha=" + senha;
+        return "\nNome:" + nome +
+                "\nSenha:" + senha;
     }
 }
